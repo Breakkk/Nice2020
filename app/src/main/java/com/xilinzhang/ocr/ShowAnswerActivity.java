@@ -1,7 +1,6 @@
 package com.xilinzhang.ocr;
 
 import android.app.ProgressDialog;
-import android.graphics.ColorMatrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,23 +14,16 @@ import android.widget.TextView;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.GeneralResult;
 import com.baidu.ocr.sdk.model.WordSimple;
-import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.BaiduOCRUtils;
+import com.xilinzhang.ocr.utils.NetworkUtils;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 识别结果页面
- */
 public class ShowAnswerActivity extends AppCompatActivity {
-
     private static final String TAG = "ShowAnswerActivity";
-    private static String LANGUAGE_PATH = "";
 
     private ImageView imageView;
-    private ImageView imageView2;
     private TextView textView;
     private AppCompatButton search;
 
@@ -44,7 +36,7 @@ public class ShowAnswerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_cropper);
+        setContentView(R.layout.activity_show_answer);
 
         Thread myThread = new Thread(runnable);
         dialog = new ProgressDialog(this);
@@ -53,7 +45,6 @@ public class ShowAnswerActivity extends AppCompatActivity {
         dialog.show();
 
         imageView =  findViewById(R.id.image);
-        imageView2 = findViewById(R.id.image2);
         textView = findViewById(R.id.text);
 
         search = findViewById(R.id.search);
@@ -88,9 +79,6 @@ public class ShowAnswerActivity extends AppCompatActivity {
         myThread.start();
     }
 
-    /**
-     * 识别线程
-     */
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {

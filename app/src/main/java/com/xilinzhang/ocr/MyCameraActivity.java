@@ -60,7 +60,7 @@ public class MyCameraActivity extends AppCompatActivity implements CameraPreview
         super.onCreate(savedInstanceState);
         // 设置全屏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_take_photo);
+        setContentView(R.layout.activity_custom_camera);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         btnClose = findViewById(R.id.btn_close);

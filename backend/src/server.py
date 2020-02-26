@@ -29,7 +29,7 @@ def searchDataBase(shitiShow):
 
 @app.route('/')
 def hello_world():
-    return 'hhh'
+    return 'heiheihei'
 
 @app.route('/find/<content>')
 def find(content):
