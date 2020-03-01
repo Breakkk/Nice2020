@@ -13,6 +13,8 @@ import java.net.URL;
 import java.util.Map;
 
 public class NetworkUtils {
+    public static  final String hostAddr = "http://192.168.3.14:5000/";
+
     public static String sendPost(String address, Map<String, Object> map){
         OutputStreamWriter out = null;
         BufferedReader in = null;

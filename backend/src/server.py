@@ -1,7 +1,18 @@
-﻿from flask import Flask
+﻿from flask import Flask, redirect
 from flask import request
 import pymssql
+import os
 import json
+import flask
+import decimal
+
+
+class MyJSONEncoder(flask.json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            # Convert decimal instances to strings.
+            return str(obj)
+        return super(MyJSONEncoder, self).default(obj)
 
 app = Flask(__name__)
 
@@ -15,8 +26,12 @@ db=pymssql.connect(
     'QuestionData',
     'utf8'
 )
+print ("path: ", os.path.abspath('.'))
 
-print('connected')
+print('connected!!')
+
+def dictToJson(dict):
+    return json.dumps(dict, cls=MyJSONEncoder)
 
 cursor = db.cursor()
 # 执行sql语句
@@ -24,12 +39,14 @@ cursor = db.cursor()
 def searchDataBase(shitiShow):
     command = "select * from TK_QuestionInfo where ShiTiShow like '%" + shitiShow + "%'"
     cursor.execute(command)
+    columns = [column[0] for column in cursor.description]
     data = cursor.fetchone()
-    return data
+    return dict(zip(columns, data))
 
 @app.route('/')
 def hello_world():
-    return 'heiheihei'
+    tmp = searchDataBase("北京")
+    return dictToJson(tmp)
 
 @app.route('/find/<content>')
 def find(content):
@@ -49,9 +66,9 @@ def search():
     print (json.loads(request.get_data()))
     print (request.form)
     jsonObj = json.loads(request.get_data())
-    str = searchDataBase(jsonObj['keyword'])
-    print(str[72])
-    return str[72] + '\n' + str[71] + '\n' + str[70]
+    result = searchDataBase(jsonObj['keyword'])
+    print(result)
+    return dictToJson(result)
     
 
 if __name__ == '__main__':

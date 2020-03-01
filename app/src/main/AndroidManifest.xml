@@ -31,7 +31,11 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:screenOrientation="nosensor" />
         <activity
-            android:name="com.xilinzhang.ocr.ShowAnswerActivity"
+            android:name="com.xilinzhang.ocr.ShowOCRResultActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xilinzhang.ocr.ShowDataBaseResultActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:screenOrientation="nosensor" />
     </application>

@@ -153,7 +153,7 @@ public class MyCameraActivity extends AppCompatActivity implements CameraPreview
                     String filename = DateFormat.format("yyyy-MM-dd kk.mm.ss", dateTaken).toString() + ".jpg";
                     Uri uri = insertImage(getContentResolver(), filename, dateTaken, PATH, filename, cropperBitmap, null);
 
-                    Intent intent = new Intent(MyCameraActivity.this, ShowAnswerActivity.class);
+                    Intent intent = new Intent(MyCameraActivity.this, ShowOCRResultActivity.class);
                     intent.setData(uri);
                     intent.putExtra("path", PATH + filename);
                     intent.putExtra("width", cropperBitmap.getWidth());

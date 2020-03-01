@@ -1,6 +1,7 @@
 package com.xilinzhang.ocr;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,13 +16,16 @@ import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.GeneralResult;
 import com.baidu.ocr.sdk.model.WordSimple;
 import com.xilinzhang.ocr.utils.BaiduOCRUtils;
+import com.xilinzhang.ocr.utils.DataBaseUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShowAnswerActivity extends AppCompatActivity {
-    private static final String TAG = "ShowAnswerActivity";
+public class ShowOCRResultActivity extends AppCompatActivity {
+    private static final String TAG = "ShowOCRResultActivity";
 
     private ImageView imageView;
     private TextView textView;
@@ -44,7 +48,7 @@ public class ShowAnswerActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        imageView =  findViewById(R.id.image);
+        imageView = findViewById(R.id.image);
         textView = findViewById(R.id.text);
 
         search = findViewById(R.id.search);
@@ -56,18 +60,23 @@ public class ShowAnswerActivity extends AppCompatActivity {
                     public void run() {
                         final Map<String, Object> map = new HashMap<>();
                         String text = textView.getText().toString();
-                        Log.d("keyword", text + text.indexOf("(") + text.indexOf(")"));
-                         String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
-                        Log.d("keyword", keyword);
+                        String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
                         map.put("keyword", keyword);
-                        map.put("test", "test");
-                        final String ans = NetworkUtils.sendPost("http://192.168.3.14:5000/search", map);
-                        new Handler(getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                textView.setText(ans);
-                            }
-                        });
+                        final JSONObject json;
+                        Intent intent = new Intent(ShowOCRResultActivity.this, ShowDataBaseResultActivity.class);
+                        try {
+                            json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + DataBaseUtils.SERVER_POST_URL_SEARCH, map));
+//                            final String ans = DataBaseUtils.getFormatHTMLStr(json);
+//                            intent.putExtra("data", ans);
+                            int a = 1;
+                            DataBaseUtils.intentProcesser(intent, json);
+                            intent.putExtra(DataBaseUtils.SUCCESS_FLAG, true);
+                        } catch (Exception e) {
+                            Log.d("error", e.toString());
+                            intent.putExtra(DataBaseUtils.SUCCESS_FLAG, false);
+                        } finally {
+                            startActivity(intent);
+                        }
                     }
                 }).start();
             }
@@ -82,11 +91,11 @@ public class ShowAnswerActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            BaiduOCRUtils.recognizeAccurateBasic(ShowAnswerActivity.this, imgPath, new BaiduOCRUtils.OCRCallBack<GeneralResult>() {
+            BaiduOCRUtils.recognizeAccurateBasic(ShowOCRResultActivity.this, imgPath, new BaiduOCRUtils.OCRCallBack<GeneralResult>() {
                 @Override
                 public void succeed(GeneralResult data) {
                     String str = "";
-                    for(WordSimple word : data.getWordList()) {
+                    for (WordSimple word : data.getWordList()) {
                         str = str + word.getWords() + "\n";
                     }
                     final String test = str;
