@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.btn_camera);
         imageView.setOnClickListener(this);
 
+        findViewById(R.id.sign_in).setOnClickListener(this);
+        findViewById(R.id.sign_up).setOnClickListener(this);
+
         initAccessToken();
     }
 
@@ -67,6 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_camera:
                 checkSelfPermission();
+                break;
+            case R.id.sign_in:
+                Intent intent1 = new Intent(MainActivity.this, SignActivity.class);
+                intent1.putExtra(SignActivity.SIGN_IN_KEY, true);
+                startActivity(intent1);
+                break;
+            case R.id.sign_up:
+                Intent intent2 = new Intent(MainActivity.this, SignActivity.class);
+                intent2.putExtra(SignActivity.SIGN_IN_KEY, false);
+                startActivity(intent2);
                 break;
         }
     }
