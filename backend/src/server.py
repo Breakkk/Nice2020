@@ -45,8 +45,7 @@ def searchDataBase(shitiShow):
 
 @app.route('/')
 def hello_world():
-    tmp = searchDataBase("北京")
-    return dictToJson(tmp)
+    return "欢迎"
 
 @app.route('/find/<content>')
 def find(content):
@@ -69,6 +68,15 @@ def search():
     result = searchDataBase(jsonObj['keyword'])
     print(result)
     return dictToJson(result)
+
+
+@app.route('/signin', methods=['POST'])
+def signIn():
+    if request.method != 'POST':
+            return
+    jsonObj = json.loads(request.get_data())
+    print (jsonObj)
+    return "success"
     
 
 if __name__ == '__main__':
