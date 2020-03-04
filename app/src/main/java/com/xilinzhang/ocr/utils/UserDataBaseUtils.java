@@ -15,7 +15,6 @@ public class UserDataBaseUtils {
     }
 
     public static boolean signIn(Map<String, Object> info) {
-        String result = NetworkUtils.sendPost(NetworkUtils.hostAddr + POST_SIGN_IN, info);
-        return result.toLowerCase().contains("success");
+        return NetworkUtils.sendPost(NetworkUtils.hostAddr + POST_SIGN_IN, info).toLowerCase().contains("success");
     }
 }

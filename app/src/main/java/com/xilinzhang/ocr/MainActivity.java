@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResult(AccessToken accessToken) {
                 final String token = accessToken.getAccessToken();
-                new Handler(getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, "init success with token: " + token, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             @Override
@@ -87,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sign_up:
                 Intent intent2 = new Intent(MainActivity.this, SignActivity.class);
                 intent2.putExtra(SignActivity.SIGN_IN_KEY, false);
-                startActivity(intent2);
+                startActivityForResult(intent2, SignActivity.SIGN_UP_REQUEST);
                 break;
             case R.id.my:
                 //enter my activity
@@ -131,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "登陆成功", Toast.LENGTH_LONG).show();
             signIn.setVisibility(View.GONE);
             my.setVisibility(View.VISIBLE);
-        }else {
-
+        }else if(requestCode == SignActivity.SIGN_UP_REQUEST && resultCode == SignActivity.SIGN_UP_RESULT_SUCCESS) {
+            Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
         }
     }
 }

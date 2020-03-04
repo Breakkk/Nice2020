@@ -21,6 +21,8 @@ public class SignActivity extends AppCompatActivity {
 
     public static final int SIGN_IN_RESULT_SUCCESS = 10001;
     public static final int SIGN_IN_REQUEST = 1000;
+    public static final int SIGN_UP_RESULT_SUCCESS = 20001;
+    public static final int SIGN_UP_REQUEST = 2000;
 
     AppCompatTextView title;
     LinearLayout signInLayout, signUpLayout;
@@ -85,11 +87,24 @@ public class SignActivity extends AppCompatActivity {
                     String pwdOnce = signUpPwdOnce.getText().toString();
                     String pwdTwice = signUpPwdTwice.getText().toString();
                     if (checkLegal(user, pwdOnce, pwdTwice)) {
-
+                        final Map<String, Object> map = new HashMap<>();
+                        map.put(UserDataBaseUtils.DATABASE_KEY_USER, user);
+                        map.put(UserDataBaseUtils.DATABASE_KEY_PWD, pwdOnce);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Looper.prepare();
+                                if (UserDataBaseUtils.signUp(map)) {
+                                    //注册成功
+                                    setResult(SIGN_UP_RESULT_SUCCESS);
+                                    finish();
+                                } else {
+                                    //注册失败
+                                }
+                            }
+                        }).start();
                     } else {
-
                     }
-                    Toast.makeText(SignActivity.this, user + " " + pwdOnce + " " + pwdTwice, Toast.LENGTH_LONG).show();
                 }
             }
         });
