@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
-
+                android:inputType="textPassword"
                 android:layout_weight="1"/>
 
         </LinearLayout>
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,6 +112,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
+                android:inputType="textPassword"
                 android:layout_weight="1"/>
 
         </LinearLayout>
@@ -132,6 +133,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
+                android:inputType="textPassword"
                 android:layout_weight="1"/>
 
         </LinearLayout>
