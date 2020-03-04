@@ -59,12 +59,9 @@ def search():
     print("******************************************************* recieve")
     if request.method != 'POST':
         return
-    print (request.get_data())
     print (json.loads(request.get_data()))
-    print (request.form)
     jsonObj = json.loads(request.get_data())
     result = searchDataBase(jsonObj['keyword'])
-    print(result)
     return dictToJson(result)
 
 

@@ -61,7 +61,9 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                         final Map<String, Object> map = new HashMap<>();
                         String text = textView.getText().toString();
                         String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
+                        map.put("username", MyApplication.userName);
                         map.put("keyword", keyword);
+                        map.put("signed", MyApplication.isSignIned);
                         final JSONObject json;
                         Intent intent = new Intent(ShowOCRResultActivity.this, ShowDataBaseResultActivity.class);
                         try {

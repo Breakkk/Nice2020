@@ -60,8 +60,8 @@ public class SignActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isSignIn) {
-                    String user = signInUser.getText().toString();
-                    String pwd = signInPwd.getText().toString();
+                    final String user = signInUser.getText().toString();
+                    final String pwd = signInPwd.getText().toString();
                     if (checkLegal(user, pwd)) {
                         final Map<String, Object> map = new HashMap<>();
                         map.put(UserDataBaseUtils.DATABASE_KEY_USER, user);
@@ -72,6 +72,8 @@ public class SignActivity extends AppCompatActivity {
                                 Looper.prepare();
                                 if (UserDataBaseUtils.signIn(map)) {
                                     //登陆成功
+                                    MyApplication.isSignIned = true;
+                                    MyApplication.userName = user;
                                     setResult(SIGN_IN_RESULT_SUCCESS);
                                     finish();
                                 } else {
