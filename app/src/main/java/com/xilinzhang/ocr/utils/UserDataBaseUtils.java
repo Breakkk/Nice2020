@@ -7,7 +7,7 @@ public class UserDataBaseUtils {
     public static final String POST_SIGN_IN = "signin";
     public static final String POST_SIGN_UP = "signup";
 
-    public static final String DATABASE_KEY_USER = "user";
+    public static final String DATABASE_KEY_USER = "username";
     public static final String DATABASE_KEY_PWD = "pwd";
 
     public static boolean signUp(Map<String, Object> info) {

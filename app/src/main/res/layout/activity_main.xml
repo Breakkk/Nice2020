@@ -27,6 +27,18 @@
         android:textColor="@android:color/white"
         android:textSize="26dp"
         android:text="登录" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/my"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="left|top"
+        android:textColor="@android:color/white"
+        android:textSize="26dp"
+        android:visibility="gone"
+        android:text="我的" />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/sign_up"
         android:layout_width="wrap_content"

@@ -19,6 +19,9 @@ import java.util.Map;
 public class SignActivity extends AppCompatActivity {
     public static final String SIGN_IN_KEY = "is_sign_in";
 
+    public static final int SIGN_IN_RESULT_SUCCESS = 10001;
+    public static final int SIGN_IN_REQUEST = 1000;
+
     AppCompatTextView title;
     LinearLayout signInLayout, signUpLayout;
     AppCompatEditText signInUser, signInPwd;
@@ -66,16 +69,17 @@ public class SignActivity extends AppCompatActivity {
                             public void run() {
                                 Looper.prepare();
                                 if (UserDataBaseUtils.signIn(map)) {
-                                    Toast.makeText(SignActivity.this, "success", Toast.LENGTH_LONG).show();
+                                    //登陆成功
+                                    setResult(SIGN_IN_RESULT_SUCCESS);
+                                    finish();
                                 } else {
-                                    Toast.makeText(SignActivity.this, "failed", Toast.LENGTH_LONG).show();
+                                    //登陆失败
                                 }
                             }
                         }).start();
                     } else {
 
                     }
-                    Toast.makeText(SignActivity.this, user + " " + pwd, Toast.LENGTH_LONG).show();
                 } else {
                     String user = signUpUser.getText().toString();
                     String pwdOnce = signUpPwdOnce.getText().toString();

@@ -26,7 +26,6 @@ db=pymssql.connect(
     'QuestionData',
     'utf8'
 )
-print ("path: ", os.path.abspath('.'))
 
 print('connected!!')
 
@@ -34,7 +33,6 @@ def dictToJson(dict):
     return json.dumps(dict, cls=MyJSONEncoder)
 
 cursor = db.cursor()
-# 执行sql语句
 
 def searchDataBase(shitiShow):
     command = "select * from TK_QuestionInfo where ShiTiShow like '%" + shitiShow + "%'"
@@ -72,11 +70,31 @@ def search():
 
 @app.route('/signin', methods=['POST'])
 def signIn():
-    if request.method != 'POST':
-            return
     jsonObj = json.loads(request.get_data())
-    print (jsonObj)
-    return "success"
+    print(jsonObj)
+    str = "select * from userInfoList where username='{}' and pwd='{}'".format(jsonObj['username'], jsonObj['pwd'])
+    cursor.execute(str)
+    data = cursor.fetchone()
+    if data != None:
+        print("success")
+        return "success"
+    print("failed")
+    return "failed"
+
+@app.route('/signup', methods=['POST'])
+def signUp():
+    jsonObj = json.loads(request.get_data())
+    print(jsonObj)
+    sql_insert = "insert into userInfoList(username,pwd,historyid) values ('{}','{}','{}')".format(jsonObj['username'], jsonObj['pwd'], "")
+    try:
+        cursor.execute(sql_insert)
+        db.commit()
+    except:
+        print("failed")
+        return "failed"
+    else:
+        print("success")
+        return "success"
     
 
 if __name__ == '__main__':

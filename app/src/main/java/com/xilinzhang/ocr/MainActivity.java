@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView imageView;
 
+    private AppCompatTextView signIn, signUp, my;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.btn_camera);
         imageView.setOnClickListener(this);
 
-        findViewById(R.id.sign_in).setOnClickListener(this);
-        findViewById(R.id.sign_up).setOnClickListener(this);
+        signIn = findViewById(R.id.sign_in);
+        signUp = findViewById(R.id.sign_up);
+        my = findViewById(R.id.my);
+
+        signUp.setOnClickListener(this);
+        signIn.setOnClickListener(this);
+        my.setOnClickListener(this);
 
         initAccessToken();
     }
@@ -74,12 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sign_in:
                 Intent intent1 = new Intent(MainActivity.this, SignActivity.class);
                 intent1.putExtra(SignActivity.SIGN_IN_KEY, true);
-                startActivity(intent1);
+                startActivityForResult(intent1, SignActivity.SIGN_IN_REQUEST);
                 break;
             case R.id.sign_up:
                 Intent intent2 = new Intent(MainActivity.this, SignActivity.class);
                 intent2.putExtra(SignActivity.SIGN_IN_KEY, false);
                 startActivity(intent2);
+                break;
+            case R.id.my:
+                //enter my activity
+                break;
+            default:
                 break;
         }
     }
@@ -106,6 +119,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Intent intent = new Intent(this, MyCameraActivity.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SignActivity.SIGN_IN_REQUEST && resultCode == SignActivity.SIGN_IN_RESULT_SUCCESS) {
+            //登陆成功
+            Toast.makeText(this, "登陆成功", Toast.LENGTH_LONG).show();
+            signIn.setVisibility(View.GONE);
+            my.setVisibility(View.VISIBLE);
+        }else {
+
         }
     }
 }
