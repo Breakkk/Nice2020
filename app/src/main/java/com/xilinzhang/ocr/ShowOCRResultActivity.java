@@ -62,10 +62,11 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                         String text = textView.getText().toString();
                         String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
                         map.put("username", MyApplication.userName);
-                        map.put("keyword", keyword);
                         map.put("signed", MyApplication.isSignIned);
+                        map.put("keyword", keyword);
                         final JSONObject json;
                         Intent intent = new Intent(ShowOCRResultActivity.this, ShowDataBaseResultActivity.class);
+                        intent.putExtra("imgUri", uri);
                         try {
                             json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + DataBaseUtils.SERVER_POST_URL_SEARCH, map));
 //                            final String ans = DataBaseUtils.getFormatHTMLStr(json);

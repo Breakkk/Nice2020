@@ -34,12 +34,17 @@ def dictToJson(dict):
 
 cursor = db.cursor()
 
+def dataToDict(columns, data):
+    return dict(zip(columns, data))
+
 def searchDataBase(shitiShow):
     command = "select * from TK_QuestionInfo where ShiTiShow like '%" + shitiShow + "%'"
     cursor.execute(command)
     columns = [column[0] for column in cursor.description]
     data = cursor.fetchone()
-    return dict(zip(columns, data))
+    if data == None:
+        return None
+    return dataToDict(columns, data)
 
 @app.route('/')
 def hello_world():
@@ -54,6 +59,25 @@ def find(content):
     print(data)
     return data[72] + data[71] + data[70]
 
+def getUserHistory(username):
+    sqlstr = "select * from userInfoList where username='{}'".format(username)
+    cursor.execute(sqlstr)
+    data = cursor.fetchone()
+    columns = [column[0] for column in cursor.description]
+    datadict = dataToDict(columns, data)
+    return datadict['historyid'].replace(" ", "")
+
+def addHistory(id, username):
+    oldHistory = getUserHistory(username)
+    newHistory = oldHistory + ";" + id
+    print(newHistory)
+    if(oldHistory.find(id) >= 0):
+        return
+    sqlstr = "update userInfoList set historyid='{}' where username='{}'".format(newHistory, username)
+    cursor.execute(sqlstr)
+    db.commit()
+    return
+
 @app.route('/search', methods=['POST'])
 def search():
     print("******************************************************* recieve")
@@ -62,6 +86,9 @@ def search():
     print (json.loads(request.get_data()))
     jsonObj = json.loads(request.get_data())
     result = searchDataBase(jsonObj['keyword'])
+    if result != None and jsonObj['signed']:
+        #搜索到结果存储历史记录
+        addHistory(result['QuestionID'], jsonObj['username'])
     return dictToJson(result)
 
 
@@ -69,8 +96,8 @@ def search():
 def signIn():
     jsonObj = json.loads(request.get_data())
     print(jsonObj)
-    str = "select * from userInfoList where username='{}' and pwd='{}'".format(jsonObj['username'], jsonObj['pwd'])
-    cursor.execute(str)
+    sqlstr = "select * from userInfoList where username='{}' and pwd='{}'".format(jsonObj['username'], jsonObj['pwd'])
+    cursor.execute(sqlstr)
     data = cursor.fetchone()
     if data != None:
         print("success")
