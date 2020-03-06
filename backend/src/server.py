@@ -91,6 +91,13 @@ def search():
         addHistory(result['QuestionID'], jsonObj['username'])
     return dictToJson(result)
 
+@app.route("/getHistoryList", methods=['POST'])
+def getHistoryList():
+    if request.method != 'POST':
+        return
+    print (json.loads(request.get_data()))
+    jsonObj = json.loads(request.get_data())
+    return getUserHistory(jsonObj['username'])
 
 @app.route('/signin', methods=['POST'])
 def signIn():

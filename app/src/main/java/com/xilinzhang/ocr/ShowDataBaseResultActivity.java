@@ -1,15 +1,20 @@
 package com.xilinzhang.ocr;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.xilinzhang.ocr.utils.DataBaseUtils;
+import com.xilinzhang.ocr.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ShowDataBaseResultActivity extends AppCompatActivity {
     @Nullable
@@ -17,6 +22,8 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
 
     private WebView show, answer, analysis;
     private FrameLayout failedView;
+
+    Uri imgUri;
 
     private boolean isSuccess = false;
 
@@ -26,6 +33,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_database_result);
 
         isSuccess = getIntent().getExtras().getBoolean(DataBaseUtils.SUCCESS_FLAG);
+        imgUri = (Uri) getIntent().getExtras().get("imgUri");
         initView();
     }
 
@@ -35,7 +43,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
         analysis = findViewById(R.id.shiti_analysis);
 
         failedView = findViewById(R.id.failed_view);
-        if(isSuccess) {
+        if (isSuccess) {
             parseData();
         } else {
             failedView.setVisibility(View.VISIBLE);
@@ -49,5 +57,28 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         analysis.loadData(getIntent().getExtras().getString(DataBaseUtils.SHITI_ANALYSIS), "text/html", "utf-8");
+
+        addHistory();
+    }
+
+    private void addHistory() {
+        Record record = new Record(
+                imgUri.toString(),
+                getIntent().getExtras().getString(DataBaseUtils.SHITI_SHOW),
+                getIntent().getExtras().getString(DataBaseUtils.SHITI_ANSWER),
+                getIntent().getExtras().getString(DataBaseUtils.SHITI_ANALYSIS)
+        );
+        //添加历史纪
+        List<Record> old = (List<Record>) Utils.getLocalHistory();
+        if(old == null) {
+            old = new ArrayList<>();
+        }
+        for(Record item: old) {
+            if(item.getImgUri().equals(record.getImgUri())) {
+                return;
+            }
+        }
+        old.add(record);
+        Utils.setLocalHistory(old);
     }
 }

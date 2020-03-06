@@ -42,6 +42,10 @@
             android:name="com.xilinzhang.ocr.SignActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xilinzhang.ocr.ShowHistoryActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>

@@ -1,14 +1,28 @@
 package com.xilinzhang.ocr.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.os.Environment;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 
+import com.xilinzhang.ocr.MyApplication;
+import com.xilinzhang.ocr.Record;
+import com.xilinzhang.ocr.SharedPerferenceHelper;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -68,5 +82,63 @@ public class Utils {
             // no camera on this device
             return false;
         }
+    }
+
+    public static final String LOCAL_HISTORY_KEY = "history_";
+
+    public static List<?> getLocalHistory() {
+        String str = SharedPerferenceHelper.getValue(LOCAL_HISTORY_KEY, null);
+        try {
+            return stringToList(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static void setLocalHistory(List<?> recordList) {
+        String str = null;
+        try {
+            str = listToString(recordList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SharedPerferenceHelper.putValue(LOCAL_HISTORY_KEY, str);
+    }
+
+    public static String listToString(List<?> list)throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        // 然后将得到的字符数据装载到ObjectOutputStream
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                byteArrayOutputStream);
+        // writeObject 方法负责写入特定类的对象的状态，以便相应的 readObject 方法可以还原它
+        objectOutputStream.writeObject(list);
+        // 最后，用Base64.encode将字节文件转换成Base64编码保存在String中
+        String listString = new String(Base64.encode(
+                byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
+        // 关闭objectOutputStream
+        objectOutputStream.close();
+        return listString;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<?> stringToList(String listString) throws StreamCorruptedException, IOException,
+            ClassNotFoundException {
+        byte[] mobileBytes = Base64.decode(listString.getBytes(),
+                Base64.DEFAULT);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+                mobileBytes);
+        ObjectInputStream objectInputStream = new ObjectInputStream(
+                byteArrayInputStream);
+        List<?> WeatherList = (List<?>) objectInputStream
+                .readObject();
+        objectInputStream.close();
+        return WeatherList;
+    }
+
+    public static String testGet() {
+        return SharedPerferenceHelper.getValue("test_string", "");
+    }
+    public static void testSet() {
+        SharedPerferenceHelper.putValue("test_string", testGet()+"1");
     }
 }

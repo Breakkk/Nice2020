@@ -2,18 +2,22 @@ package com.xilinzhang.ocr;
 
 import android.net.Uri;
 
-public class Record {
-    private Uri imgUri;
+import java.io.Serializable;
+
+public class Record implements Serializable {
+    private static final long serialVersionUID = -2095916884810199532L;
+    private String imgUri;
+
     private String shitiShow, shitiAnswer, shitiAnalysis;
 
-    public Record(Uri uri, String show, String answer, String analysis) {
+    public Record(String uri, String show, String answer, String analysis) {
         imgUri = uri;
         shitiShow = show;
         shitiAnswer = answer;
         shitiAnalysis = analysis;
     }
 
-    public Uri getImgUri() {
+    public String getImgUri() {
         return imgUri;
     }
 
@@ -27,5 +31,15 @@ public class Record {
 
     public String getShitiAnalysis() {
         return shitiAnalysis;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "imgUri=" + imgUri +
+                ", shitiShow='" + shitiShow + '\'' +
+                ", shitiAnswer='" + shitiAnswer + '\'' +
+                ", shitiAnalysis='" + shitiAnalysis + '\'' +
+                '}';
     }
 }

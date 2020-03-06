@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.xilinzhang.ocr.utils.UserDataBaseUtils;
+import com.xilinzhang.ocr.utils.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignActivity extends AppCompatActivity {

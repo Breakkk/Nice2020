@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.my:
                 //enter my activity
+                Intent intent3 = new Intent(MainActivity.this, ShowHistoryActivity.class);
+                startActivity(intent3);
                 break;
             default:
                 break;
