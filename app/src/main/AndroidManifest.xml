@@ -29,22 +29,27 @@
         <activity
             android:name="com.xilinzhang.ocr.MyCameraActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xilinzhang.ocr.ShowOCRResultActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xilinzhang.ocr.ShowDataBaseResultActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xilinzhang.ocr.SignActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xilinzhang.ocr.ShowHistoryActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
     </application>
 
