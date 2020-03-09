@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.xilinzhang.ocr.utils.DataBaseUtils;
+import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
 import java.util.ArrayList;

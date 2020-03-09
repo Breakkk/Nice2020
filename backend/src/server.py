@@ -1,11 +1,10 @@
-﻿from flask import Flask, redirect
-from flask import request
-import pymssql
+﻿import pymssql
 import os
 import json
 import flask
 import decimal
-
+from flask import Flask, flash, request, redirect, url_for
+from werkzeug.utils import secure_filename
 
 class MyJSONEncoder(flask.json.JSONEncoder):
     def default(self, obj):
@@ -126,7 +125,21 @@ def signUp():
     else:
         print("success")
         return "success"
-    
+
+UPLOAD_FOLDER = '/path/to/the/uploads'
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    file = request.files['media']
+    print(file)
+    file.save(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
+    print(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
+    return ""
 
 if __name__ == '__main__':
     app.run(debug=True)

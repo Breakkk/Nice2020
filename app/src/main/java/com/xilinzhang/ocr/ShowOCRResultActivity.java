@@ -21,6 +21,7 @@ import com.xilinzhang.ocr.utils.NetworkUtils;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,6 +90,18 @@ public class ShowOCRResultActivity extends AppCompatActivity {
         imgPath = getIntent().getExtras().getString("path");
         imageView.setImageURI(uri);
         myThread.start();
+
+        findViewById(R.id.failed).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        NetworkUtils.uploadFile(NetworkUtils.hostAddr + "upload", "media", new File(imgPath));
+                    }
+                }).start();
+            }
+        });
     }
 
     private Runnable runnable = new Runnable() {
