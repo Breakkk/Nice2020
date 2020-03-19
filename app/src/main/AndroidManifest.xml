@@ -51,6 +51,11 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xilinzhang.ocr.NewQuestionActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>

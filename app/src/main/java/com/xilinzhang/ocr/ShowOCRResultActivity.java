@@ -59,24 +59,22 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final Map<String, Object> map = new HashMap<>();
-                        String text = textView.getText().toString();
-                        String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
-                        map.put("username", MyApplication.userName);
-                        map.put("signed", MyApplication.isSignIned);
-                        map.put("keyword", keyword);
-                        final JSONObject json;
                         Intent intent = new Intent(ShowOCRResultActivity.this, ShowDataBaseResultActivity.class);
                         intent.putExtra("imgUri", uri);
+                        final Map<String, Object> map = new HashMap<>();
+                        String text = textView.getText().toString();
                         try {
+                            String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
+                            map.put("username", MyApplication.userName);
+                            map.put("signed", MyApplication.isSignIned);
+                            map.put("keyword", keyword);
+                            final JSONObject json;
                             json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + DataBaseUtils.SERVER_POST_URL_SEARCH, map));
-//                            final String ans = DataBaseUtils.getFormatHTMLStr(json);
-//                            intent.putExtra("data", ans);
-                            int a = 1;
                             DataBaseUtils.intentProcesser(intent, json);
                             intent.putExtra(DataBaseUtils.SUCCESS_FLAG, true);
                         } catch (Exception e) {
                             Log.d("error", e.toString());
+                            intent.putExtra(NewQuestionActivity.OCR_RESULT, text);
                             intent.putExtra(DataBaseUtils.SUCCESS_FLAG, false);
                         } finally {
                             startActivity(intent);

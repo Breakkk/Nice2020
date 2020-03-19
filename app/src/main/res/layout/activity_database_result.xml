@@ -77,5 +77,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:visibility="gone" />
+        android:visibility="visible" >
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/new_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="100dp"
+            android:text="去提问" />
+
+    </FrameLayout>
 </FrameLayout>

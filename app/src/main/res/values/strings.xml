@@ -2,4 +2,15 @@
     <string name="app_name">Nice2020</string>
     <string name="open_camera_fail">摄像头打开失败！</string>
     <string name="take_photo_hint">将定位框定位到\n题干位置识别率更高哦</string>
+
+    <string-array name="question_type">
+        <item>单项选择题</item>
+        <item>解答题</item>
+        <item>填空题</item>
+        <item>综合题</item>
+    </string-array>
+    <string-array name="question_subject">
+        <item>高中数学</item>
+        <item>高中地理</item>
+    </string-array>
 </resources>

@@ -5,6 +5,7 @@ import flask
 import decimal
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
+import insert as insert_helper
 
 class MyJSONEncoder(flask.json.JSONEncoder):
     def default(self, obj):
@@ -54,8 +55,10 @@ def find(content):
     command = "select * from TK_QuestionInfo where ShiTiShow like '%" + content + "%'"
     print ("**********************************", command)
     cursor.execute(command)
+    columns = [column[0] for column in cursor.description]
     data = cursor.fetchone()
     print(data)
+    # return dataToDict(columns, data)
     return data[72] + data[71] + data[70]
 
 def getUserHistory(username):
@@ -133,13 +136,41 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/uploadfile', methods=['GET', 'POST'])
 def upload_file():
     file = request.files['media']
     print(file)
     file.save(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
     print(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
     return ""
+
+@app.route('/uploadtext', methods=['GET', 'POST'])
+def upload_text():
+    jsonObj = json.loads(request.get_data())
+    print(jsonObj)
+    return "success"
+
+@app.route('/newQuestion')
+def newQuestion():
+    sql_insert = insert_helper.insert(
+        "testa",
+        "test",
+        "test"
+    )
+    cursor.execute(sql_insert)
+    db.commit()
+    return sql_insert
+
+@app.route('/newAnswer')
+def newAnswer():
+    sql_str = insert_helper.update(
+        "testhhh",
+        "after",
+        "after"
+    )
+    cursor.execute(sql_str)
+    db.commit()
+    return sql_str
 
 if __name__ == '__main__':
     app.run(debug=True)

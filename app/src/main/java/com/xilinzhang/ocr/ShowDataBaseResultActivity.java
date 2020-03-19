@@ -1,5 +1,6 @@
 package com.xilinzhang.ocr;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,6 +49,15 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
             parseData();
         } else {
             failedView.setVisibility(View.VISIBLE);
+            findViewById(R.id.new_question).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ShowDataBaseResultActivity.this, NewQuestionActivity.class);
+                    intent.putExtra(NewQuestionActivity.OCR_RESULT, getIntent().getExtras().getString(NewQuestionActivity.OCR_RESULT));
+                    intent.putExtra("imgUri", imgUri);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
