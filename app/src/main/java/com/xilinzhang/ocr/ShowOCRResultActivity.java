@@ -61,6 +61,7 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                     public void run() {
                         Intent intent = new Intent(ShowOCRResultActivity.this, ShowDataBaseResultActivity.class);
                         intent.putExtra("imgUri", uri);
+                        intent.putExtra("imgPath", imgPath);
                         final Map<String, Object> map = new HashMap<>();
                         String text = textView.getText().toString();
                         try {
@@ -95,7 +96,7 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        NetworkUtils.uploadFile(NetworkUtils.hostAddr + "upload", "media", new File(imgPath));
+                        NetworkUtils.uploadFile(NetworkUtils.hostAddr + "uploadfile", "media", new File(imgPath));
                     }
                 }).start();
             }

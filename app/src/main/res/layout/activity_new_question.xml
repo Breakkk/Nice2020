@@ -41,6 +41,7 @@
                     android:textSize="20dp" />
 
                 <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/type"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:entries="@array/question_type" />
@@ -58,6 +59,7 @@
                     android:textSize="20dp" />
 
                 <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/subject"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:entries="@array/question_subject" />

@@ -6,6 +6,8 @@ import decimal
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import insert as insert_helper
+import time
+import datetime
 
 class MyJSONEncoder(flask.json.JSONEncoder):
     def default(self, obj):
@@ -91,6 +93,7 @@ def search():
     if result != None and jsonObj['signed']:
         #搜索到结果存储历史记录
         addHistory(result['QuestionID'], jsonObj['username'])
+    print(result)
     return dictToJson(result)
 
 @app.route("/getHistoryList", methods=['POST'])
@@ -136,13 +139,40 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def newQuestion(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow):
+    print(QuestionID)
+    sql_insert = insert_helper.insert(
+        QuestionID,
+        SubjectName,
+        TypeName,
+        FilePath,
+        ShiTiShow
+    )
+    cursor.execute(sql_insert)
+    db.commit()
+    return sql_insert
+
 @app.route('/uploadfile', methods=['GET', 'POST'])
 def upload_file():
+    tmp = request.get_data().decode('utf-8','ignore')
+    jsonObj = json.loads(tmp[tmp.rindex("{"):])
+    print(jsonObj)
+    timestamp = int(round(time.time() * 1000))
     file = request.files['media']
-    print(file)
-    file.save(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
-    print(os.path.join("G:\\Nice2020\\backend\\src", "test.jpg"))
-    return ""
+    filePath = "G:\\Nice2020\\backend\\src\\static\\newpics"
+    print(filePath)
+    if not os.path.exists(os.path.join(filePath, str(timestamp))):
+        os.mkdir(os.path.join(filePath, str(timestamp)))
+    file.save(os.path.join(filePath, str(timestamp), "show.jpg"))
+    newQuestion(
+        timestamp, 
+        jsonObj['SubjectName'], 
+        jsonObj['TypeName'],
+        "newpics/",
+        '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/show.jpg"><br>''' + 
+        jsonObj['ShiTiShow']
+        )
+    return "success"
 
 @app.route('/uploadtext', methods=['GET', 'POST'])
 def upload_text():
@@ -150,27 +180,27 @@ def upload_text():
     print(jsonObj)
     return "success"
 
-@app.route('/newQuestion')
-def newQuestion():
-    sql_insert = insert_helper.insert(
-        "testa",
-        "test",
-        "test"
-    )
-    cursor.execute(sql_insert)
-    db.commit()
-    return sql_insert
-
 @app.route('/newAnswer')
 def newAnswer():
     sql_str = insert_helper.update(
-        "testhhh",
+        "0",
         "after",
         "after"
     )
     cursor.execute(sql_str)
     db.commit()
     return sql_str
+
+@app.route('/unresovle', methods=['POST'])
+def unresovle():
+    jsonObj = json.loads(request.get_data())
+    sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and solved = 0".format(jsonObj['SubjectName'])
+    cursor.execute(sql_serach)
+    columns = [column[0] for column in cursor.description]
+    data = cursor.fetchone()
+    if(data == None):
+        return "None"
+    return dictToJson(dataToDict(columns, data))
 
 if __name__ == '__main__':
     app.run(debug=True)

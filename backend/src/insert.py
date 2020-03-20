@@ -1,4 +1,4 @@
-def insert(QuestionID, SubjectName, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer=""):
+def insert(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer=""):
     sql_insert = "insert into TK_QuestionInfo(\
         QuestionID\
         ,WebSiteID\
@@ -161,7 +161,7 @@ def insert(QuestionID, SubjectName, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer="")
             '{}',\
             '{}',\
             '{}')".format(
-            "0",  #QuestionID\
+            QuestionID,  #QuestionID\
             "0",  #WebSiteID\
             "0",  #SubjectID\
             SubjectName,  #SubjectName\
@@ -169,7 +169,7 @@ def insert(QuestionID, SubjectName, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer="")
             "0",  #TextBookName\
             "0",  #DBCode\
             "0",  #TypeID\
-            "0",  #TypeName\
+            TypeName,  #TypeName\
             "0",  #BaseTypeID\
             "0",  #QuestionDifficult\
             "0",  #QuestionDifferent\
@@ -222,7 +222,7 @@ def insert(QuestionID, SubjectName, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer="")
             "0",  #AnnexTextCopy1\
             "0",  #AnnexTextCopy2\
             "0",  #ContentMark\
-            "0",  #FilePath\
+            FilePath,  #FilePath\
             "0",  #QuestionIDCopyHistory\
             "0",  #OrderNum\
             "0",  #ShiTiShow1\

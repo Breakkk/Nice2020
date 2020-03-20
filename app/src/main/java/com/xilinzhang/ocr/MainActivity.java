@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signUp.setOnClickListener(this);
         signIn.setOnClickListener(this);
         my.setOnClickListener(this);
+        findViewById(R.id.question_list).setOnClickListener(this);
 
         initAccessToken();
     }
@@ -87,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //enter my activity
                 Intent intent3 = new Intent(MainActivity.this, ShowHistoryActivity.class);
                 startActivity(intent3);
+                break;
+            case R.id.question_list:
+                Intent intent4 = new Intent(MainActivity.this, QuestionListActivity.class);
+                startActivity(intent4);
                 break;
             default:
                 break;

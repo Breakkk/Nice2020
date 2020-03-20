@@ -53,6 +53,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ShowDataBaseResultActivity.this, NewQuestionActivity.class);
+                    intent.putExtra("imgPath", getIntent().getExtras().getString("imgPath"));
                     intent.putExtra(NewQuestionActivity.OCR_RESULT, getIntent().getExtras().getString(NewQuestionActivity.OCR_RESULT));
                     intent.putExtra("imgUri", imgUri);
                     startActivity(intent);

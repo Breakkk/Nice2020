@@ -11,7 +11,7 @@ import java.util.Map;
 public class DataBaseUtils {
     public static final String SERVER_POST_URL_SEARCH = "search";
 
-    public static final String SUCCESS_FLAG = "success";
+    public static final String SUCCESS_FLAG = "success_flag";
     public static final String FILE_PATH = "FilePath";
     public static final String QUESTION_ID = "QuestionID";
     public static final String SHITI_SHOW = "ShiTiShow";
