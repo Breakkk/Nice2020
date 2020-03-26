@@ -99,7 +99,7 @@ public class DoQuestionActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Map<String, Object> map = new HashMap<>();
-                        map.put("test", "yes");
+                        map.put("QuestionID", getIntent().getExtras().getString("QuestionID").trim());
                         NetworkUtils.test(NetworkUtils.hostAddr + "test_files", fileList, map);
                         dialog.dismiss();
                     }

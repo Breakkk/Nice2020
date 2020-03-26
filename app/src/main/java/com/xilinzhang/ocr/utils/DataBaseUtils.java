@@ -53,7 +53,7 @@ public class DataBaseUtils {
 
     public static void intentProcesser(Intent intent, JSONObject json) throws Exception {
         String filePath = json.getString(FILE_PATH);
-        String questionID = json.getString(QUESTION_ID);
+        String questionID = json.getString(QUESTION_ID).trim();
         intent.putExtra(FILE_PATH, json.getString(FILE_PATH));
         intent.putExtra(QUESTION_ID, json.getString(QUESTION_ID));
         intent.putExtra(SHITI_SHOW, replaceImgURL(json.getString(SHITI_SHOW), filePath, questionID));

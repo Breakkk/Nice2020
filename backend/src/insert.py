@@ -1,4 +1,4 @@
-def insert(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer=""):
+def insertQuestion(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow, ShiTiAnalysis="", ShiTiAnswer=""):
     sql_insert = "insert into TK_QuestionInfo(\
         QuestionID\
         ,WebSiteID\
@@ -243,8 +243,8 @@ def insert(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow, ShiTiAnalysis
             "0")  #solved) \
     return sql_insert
 
-def update(QuestionID, ShiTiAnalysis, ShiTiAnswer):
-    sql_str = "update TK_QuestionInfo set ShiTiAnalysis='{}', ShiTiAnswer='{}' where QuestionId='{}'".format(
+def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
+    sql_str = "update TK_QuestionInfo set ShiTiAnalysis='{}', ShiTiAnswer='{}', solved='1' where QuestionId='{}'".format(
         ShiTiAnalysis,
         ShiTiAnswer,
         QuestionID

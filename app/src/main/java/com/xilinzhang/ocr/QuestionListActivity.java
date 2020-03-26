@@ -115,6 +115,11 @@ public class QuestionListActivity extends AppCompatActivity {
                                             if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
                                                 Log.d("[uploadFileWithJson log]", "onTouch");
                                                 Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
+                                                try {
+                                                    intent.putExtra("QuestionID", json.getString("QuestionID"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
                                                 startActivity(intent);
                                             }
                                             return false;

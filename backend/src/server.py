@@ -141,7 +141,7 @@ def allowed_file(filename):
 
 def newQuestion(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow):
     print(QuestionID)
-    sql_insert = insert_helper.insert(
+    sql_insert = insert_helper.insertQuestion(
         QuestionID,
         SubjectName,
         TypeName,
@@ -174,14 +174,30 @@ def upload_file():
         )
     return "success"
 
+def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
+    print(QuestionID)
+    sql_insert = insert_helper.updateQuestion(
+        QuestionID,
+        ShiTiAnalysis,
+        ShiTiAnswer
+    )
+    cursor.execute(sql_insert)
+    db.commit()
+    return sql_insert
+
 @app.route('/test_files', methods=['GET', 'POST'])
 def test_files():
     tmp = request.get_data().decode('utf-8','ignore')
     jsonObj = json.loads(tmp[tmp.rindex("{"):])
     print(jsonObj)
-    file = request.files
-    print(request.files['answer'])
-    print(request.files['analysis'])
+    filePath = "G:\\Nice2020\\backend\\src\\static\\newpics"
+    request.files['analysis'].save(os.path.join(filePath, jsonObj['QuestionID'], "analysis.jpg"))
+    request.files['answer'].save(os.path.join(filePath, jsonObj['QuestionID'], "answer.jpg"))
+    updateQuestion(
+        jsonObj['QuestionID'],
+        '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/analysis.jpg"><br>''',
+        '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/answer.jpg"><br>'''
+    )
     return "success"
 
 @app.route('/uploadtext', methods=['GET', 'POST'])
