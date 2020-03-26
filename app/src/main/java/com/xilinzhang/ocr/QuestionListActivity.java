@@ -63,10 +63,10 @@ public class QuestionListActivity extends AppCompatActivity {
                                     WebView webView = new WebView(QuestionListActivity.this);
                                     try {
                                         String text = json.getString("ShiTiShow");
-                                        Log.d("[test log]", text);
-                                        Log.d("[test log]", "***" + json.getString("QuestionID") + "***");
+                                        Log.d("[uploadFileWithJson log]", text);
+                                        Log.d("[uploadFileWithJson log]", "***" + json.getString("QuestionID") + "***");
                                         text = DataBaseUtils.replaceImgURL(text, json.getString("FilePath"), json.getString("QuestionID").replaceAll(" ", ""));
-                                        Log.d("[test log]", text);
+                                        Log.d("[uploadFileWithJson log]", text);
                                         webView.loadData(text, "text/html", "utf-8");
                                         WebSettings settings = webView.getSettings();
                                         settings.setUseWideViewPort(true);
@@ -82,7 +82,7 @@ public class QuestionListActivity extends AppCompatActivity {
                                     webView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("[test log]", "onClick");
+                                            Log.d("[uploadFileWithJson log]", "onClick");
                                             Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
                                             startActivity(intent);
                                         }
@@ -93,7 +93,7 @@ public class QuestionListActivity extends AppCompatActivity {
                                         float x, y;
                                         @Override
                                         public boolean onTouch(View view, MotionEvent motionEvent) {
-                                            Log.d("[test log]", isMove + motionEvent.toString());
+                                            Log.d("[uploadFileWithJson log]", isMove + motionEvent.toString());
                                             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                                                 isMove = false;
                                                 x = motionEvent.getX();
@@ -113,7 +113,7 @@ public class QuestionListActivity extends AppCompatActivity {
                                             }
 
                                             if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                                                Log.d("[test log]", "onTouch");
+                                                Log.d("[uploadFileWithJson log]", "onTouch");
                                                 Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
                                                 startActivity(intent);
                                             }

@@ -1,5 +1,6 @@
 package com.xilinzhang.ocr;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,9 +8,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.view.View;
 
+import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.Utils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DoQuestionActivity extends AppCompatActivity {
     public static final int TAKE_PHOTO_RESULT = 1003;
@@ -34,18 +43,18 @@ public class DoQuestionActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == TAKE_PHOTO_RESULT) {
-            if(requestCode == TAKE_PHOTO_FOR_ANSWER_REQUEST) {
+        if (resultCode == TAKE_PHOTO_RESULT) {
+            if (requestCode == TAKE_PHOTO_FOR_ANSWER_REQUEST) {
                 answerUri = data.getData();
                 answerPath = data.getExtras().getString("path");
-                if(answerUri != null) {
+                if (answerUri != null) {
                     answer.setImageURI(answerUri);
                     answer.setEnabled(false);
                 }
             } else if (requestCode == TAKE_PHOTO_FOR_ANALYSIS_REQUEST) {
                 analysisUri = data.getData();
                 analysisPath = data.getExtras().getString("path");
-                if(analysisUri != null) {
+                if (analysisUri != null) {
                     analysis.setImageURI(analysisUri);
                     analysis.setEnabled(false);
                 }
@@ -75,8 +84,44 @@ public class DoQuestionActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (answerPath == null || analysisPath == null) {
+                    return;
+                }
 
+                final List<FileItem> fileList = new ArrayList<>();
+                fileList.add(new FileItem(new File(answerPath), "answer"));
+                fileList.add(new FileItem(new File(analysisPath), "analysis"));
+                final ProgressDialog dialog = new ProgressDialog(DoQuestionActivity.this);
+                dialog.setCancelable(false);
+                dialog.setMessage("正在上传...");
+                dialog.show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("test", "yes");
+                        NetworkUtils.test(NetworkUtils.hostAddr + "test_files", fileList, map);
+                        dialog.dismiss();
+                    }
+                }).start();
             }
         });
+    }
+
+    public static class FileItem {
+        private File file;
+        private String name;
+        public FileItem(File file, String name) {
+            this.file =  file;
+            this.name = name;
+        }
+
+        public File getFile() {
+            return file;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

@@ -68,7 +68,7 @@ NewQuestionActivity extends AppCompatActivity {
                         map.put("SubjectName", subject.getSelectedItem().toString());
                         map.put("TypeName", type.getSelectedItem().toString());
                         map.put("ShiTiShow", ocrView.getText().toString());
-                        NetworkUtils.test(NetworkUtils.hostAddr + "uploadfile", "media", new File(imgPath), map);
+                        NetworkUtils.uploadFileWithJson(NetworkUtils.hostAddr + "uploadfile", "media", new File(imgPath), map);
                         dialog.dismiss();
                     }
                 }).start();

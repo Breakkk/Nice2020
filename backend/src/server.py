@@ -174,6 +174,16 @@ def upload_file():
         )
     return "success"
 
+@app.route('/test_files', methods=['GET', 'POST'])
+def test_files():
+    tmp = request.get_data().decode('utf-8','ignore')
+    jsonObj = json.loads(tmp[tmp.rindex("{"):])
+    print(jsonObj)
+    file = request.files
+    print(request.files['answer'])
+    print(request.files['analysis'])
+    return "success"
+
 @app.route('/uploadtext', methods=['GET', 'POST'])
 def upload_text():
     jsonObj = json.loads(request.get_data())
