@@ -1,6 +1,8 @@
 package com.xilinzhang.ocr;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,15 +20,10 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.xilinzhang.ocr.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private static final int PERMISSIONS_REQUEST_CAMERA = 454;
-
-    static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
-
     private ImageView imageView;
-
     private AppCompatTextView signIn, signUp, my;
 
     @Override
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_camera:
-                checkSelfPermission();
+                Utils.startCamera(MainActivity.this);
                 break;
             case R.id.sign_in:
                 Intent intent1 = new Intent(MainActivity.this, SignActivity.class);
@@ -102,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_CAMERA: {
+            case Utils.PERMISSIONS_REQUEST_CAMERA: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(this, MyCameraActivity.class);
                     startActivity(intent);
@@ -111,15 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return;
             }
-        }
-    }
-
-    void checkSelfPermission() {
-        if (ContextCompat.checkSelfPermission(this, PERMISSION_CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-        } else {
-            Intent intent = new Intent(this, MyCameraActivity.class);
-            startActivity(intent);
         }
     }
 

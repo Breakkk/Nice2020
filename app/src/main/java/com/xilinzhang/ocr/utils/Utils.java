@@ -1,28 +1,26 @@
 package com.xilinzhang.ocr.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 
-import com.xilinzhang.ocr.MyApplication;
-import com.xilinzhang.ocr.Record;
+import com.xilinzhang.ocr.MyCameraActivity;
 import com.xilinzhang.ocr.SharedPerferenceHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -55,9 +53,9 @@ public class Utils {
         double unity = ((double) previewBottom - (double) previewTop) / 2000;
 
         int left = clamp((int) (((x - areaWidth / 2) - centerX) / unitx),
-            -1000, 1000);
+                -1000, 1000);
         int top = clamp((int) (((y - areaHeight / 2) - centerY) / unity),
-            -1000, 1000);
+                -1000, 1000);
         int right = clamp((int) (left + areaWidth / unitx), -1000, 1000);
         int bottom = clamp((int) (top + areaHeight / unity), -1000, 1000);
 
@@ -95,6 +93,7 @@ public class Utils {
         }
         return null;
     }
+
     public static void setLocalHistory(List<?> recordList) {
         String str = null;
         try {
@@ -105,7 +104,7 @@ public class Utils {
         SharedPerferenceHelper.putValue(LOCAL_HISTORY_KEY, str);
     }
 
-    public static String listToString(List<?> list)throws IOException {
+    public static String listToString(List<?> list) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         // 然后将得到的字符数据装载到ObjectOutputStream
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(
@@ -138,7 +137,30 @@ public class Utils {
     public static String testGet() {
         return SharedPerferenceHelper.getValue("test_string", "");
     }
+
     public static void testSet() {
-        SharedPerferenceHelper.putValue("test_string", testGet()+"1");
+        SharedPerferenceHelper.putValue("test_string", testGet() + "1");
+    }
+
+    public static final int PERMISSIONS_REQUEST_CAMERA = 454;
+    public static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
+
+    public static void startCamera(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity, PERMISSION_CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{PERMISSION_CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+        } else {
+            Intent intent = new Intent(activity, MyCameraActivity.class);
+            intent.putExtra("need_start_activity", true);
+            activity.startActivity(intent);
+        }
+    }
+
+    public static void startCameraForResult(Activity activity, int requestCode) {
+        if (ContextCompat.checkSelfPermission(activity, PERMISSION_CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{PERMISSION_CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+        } else {
+            Intent intent = new Intent(activity, MyCameraActivity.class);
+            activity.startActivityForResult(intent, requestCode);
+        }
     }
 }

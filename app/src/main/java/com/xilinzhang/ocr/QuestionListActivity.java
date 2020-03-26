@@ -1,5 +1,6 @@
 package com.xilinzhang.ocr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -80,7 +82,42 @@ public class QuestionListActivity extends AppCompatActivity {
                                     webView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            Log.d("[test log]", "onClick");
+                                            Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    });
 
+                                    webView.setOnTouchListener(new View.OnTouchListener() {
+                                        boolean isMove = false;
+                                        float x, y;
+                                        @Override
+                                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                                            Log.d("[test log]", isMove + motionEvent.toString());
+                                            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                                                isMove = false;
+                                                x = motionEvent.getX();
+                                                y = motionEvent.getY();
+                                                return false;
+                                            }
+
+                                            if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+                                                if(Math.abs(motionEvent.getY() - y) >= 10) {
+                                                    isMove = true;
+                                                    return false;
+                                                }
+                                            }
+
+                                            if(isMove) {
+                                                return  false;
+                                            }
+
+                                            if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                                                Log.d("[test log]", "onTouch");
+                                                Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
+                                                startActivity(intent);
+                                            }
+                                            return false;
                                         }
                                     });
                                 }

@@ -64,7 +64,7 @@ public class MyCameraActivity extends AppCompatActivity implements CameraPreview
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         btnClose = findViewById(R.id.btn_close);
-        btnShutter =  findViewById(R.id.btn_shutter);
+        btnShutter = findViewById(R.id.btn_shutter);
         btnAlbum = findViewById(R.id.btn_album);
         tvHint = findViewById(R.id.hint);
         btnStartCropper = findViewById(R.id.btn_startcropper);
@@ -153,12 +153,21 @@ public class MyCameraActivity extends AppCompatActivity implements CameraPreview
                     String filename = DateFormat.format("yyyy-MM-dd kk.mm.ss", dateTaken).toString() + ".jpg";
                     Uri uri = insertImage(getContentResolver(), filename, dateTaken, PATH, filename, cropperBitmap, null);
 
-                    Intent intent = new Intent(MyCameraActivity.this, ShowOCRResultActivity.class);
-                    intent.setData(uri);
-                    intent.putExtra("path", PATH + filename);
-                    intent.putExtra("width", cropperBitmap.getWidth());
-                    intent.putExtra("height", cropperBitmap.getHeight());
-                    startActivity(intent);
+                    if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("need_start_activity")) {
+                        Intent intent = new Intent(MyCameraActivity.this, ShowOCRResultActivity.class);
+                        intent.setData(uri);
+                        intent.putExtra("path", PATH + filename);
+                        intent.putExtra("width", cropperBitmap.getWidth());
+                        intent.putExtra("height", cropperBitmap.getHeight());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setData(uri);
+                        intent.putExtra("path", PATH + filename);
+                        intent.putExtra("width", cropperBitmap.getWidth());
+                        intent.putExtra("height", cropperBitmap.getHeight());
+                        setResult(DoQuestionActivity.TAKE_PHOTO_RESULT, intent);
+                    }
                     cropperBitmap.recycle();
                     finish();
                     break;
