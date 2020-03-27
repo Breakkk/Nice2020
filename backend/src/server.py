@@ -185,8 +185,8 @@ def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
     db.commit()
     return sql_insert
 
-@app.route('/test_files', methods=['GET', 'POST'])
-def test_files():
+@app.route('/uploadfiles', methods=['GET', 'POST'])
+def uploadfiles():
     tmp = request.get_data().decode('utf-8','ignore')
     jsonObj = json.loads(tmp[tmp.rindex("{"):])
     print(jsonObj)
@@ -198,12 +198,6 @@ def test_files():
         '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/analysis.jpg"><br>''',
         '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/answer.jpg"><br>'''
     )
-    return "success"
-
-@app.route('/uploadtext', methods=['GET', 'POST'])
-def upload_text():
-    jsonObj = json.loads(request.get_data())
-    print(jsonObj)
     return "success"
 
 @app.route('/newAnswer')
@@ -220,17 +214,6 @@ def newAnswer():
 @app.route('/unresovle', methods=['POST'])
 def unresovle():
     jsonObj = json.loads(request.get_data())
-    sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and solved = 0".format(jsonObj['SubjectName'])
-    cursor.execute(sql_serach)
-    columns = [column[0] for column in cursor.description]
-    data = cursor.fetchone()
-    if(data == None):
-        return "None"
-    return dictToJson(dataToDict(columns, data))
-
-@app.route('/test_unresovle', methods=['POST'])
-def test_unresovle():
-    jsonObj = json.loads(request.get_data())
     print(jsonObj)
     sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and TypeName = '{}' and solved = 0".format(jsonObj['SubjectName'], jsonObj['TypeName'])
     cursor.execute(sql_serach)
@@ -242,19 +225,6 @@ def test_unresovle():
         res.append(data)
         data = cursor.fetchone()
     print("***",{"data":res},"***")
-    return {"data":res}
-
-@app.route('/test/<key>')
-def test(key):
-    sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and solved = 0".format(key)
-    cursor.execute(sql_serach)
-    columns = [column[0] for column in cursor.description]
-    res = []
-    data = cursor.fetchone()
-    while(data != None):
-        data = dictToJson(dataToDict(columns, data))
-        res.append(data)
-        data = cursor.fetchone()
     return {"data":res}
 
 if __name__ == '__main__':

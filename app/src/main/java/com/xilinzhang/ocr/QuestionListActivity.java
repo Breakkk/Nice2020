@@ -58,7 +58,7 @@ public class QuestionListActivity extends AppCompatActivity {
                         map.put("TypeName", type.getSelectedItem().toString());
                         final JSONObject json;
                         try {
-                            json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + "test_unresovle", map));
+                            json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + "unresovle", map));
                             JSONArray jsonArray = json.getJSONArray("data");
                             Log.d("testlog", "**********************************");
                             for(int i = 0; i < jsonArray.length(); i++) {

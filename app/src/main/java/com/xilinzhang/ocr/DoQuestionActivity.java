@@ -100,7 +100,7 @@ public class DoQuestionActivity extends AppCompatActivity {
                     public void run() {
                         Map<String, Object> map = new HashMap<>();
                         map.put("QuestionID", getIntent().getExtras().getString("QuestionID").trim());
-                        NetworkUtils.test(NetworkUtils.hostAddr + "test_files", fileList, map);
+                        NetworkUtils.test(NetworkUtils.hostAddr + "uploadfiles", fileList, map);
                         dialog.dismiss();
                     }
                 }).start();
