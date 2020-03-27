@@ -68,7 +68,10 @@ NewQuestionActivity extends AppCompatActivity {
                         map.put("SubjectName", subject.getSelectedItem().toString());
                         map.put("TypeName", type.getSelectedItem().toString());
                         map.put("ShiTiShow", ocrView.getText().toString());
-                        NetworkUtils.uploadFileWithJson(NetworkUtils.hostAddr + "uploadfile", "media", new File(imgPath), map);
+                        if(MyApplication.isSignIned) {
+                            map.put("username", MyApplication.userName);
+                        }
+                        NetworkUtils.uploadFileWithJson(NetworkUtils.hostAddr + "handle_new_question", "media", new File(imgPath), map);
                         dialog.dismiss();
                     }
                 }).start();

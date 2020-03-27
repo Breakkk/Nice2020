@@ -63,16 +63,21 @@ def find(content):
     # return dataToDict(columns, data)
     return data[72] + data[71] + data[70]
 
-def getUserHistory(username):
+def getUserInfo(username, infoName):
     sqlstr = "select * from userInfoList where username='{}'".format(username)
     cursor.execute(sqlstr)
     data = cursor.fetchone()
     columns = [column[0] for column in cursor.description]
     datadict = dataToDict(columns, data)
-    return datadict['historyid'].replace(" ", "")
+    return datadict[infoName]
+
+def setUserInfo(username, infoName, infoValue):
+    sqlstr = "update userInfoList set {}='{}' where username='{}'".format(infoName, infoValue, username)
+    cursor.execute(sqlstr)
+    db.commit()
 
 def addHistory(id, username):
-    oldHistory = getUserHistory(username)
+    oldHistory = getUserInfo(username, 'historyid')
     newHistory = oldHistory + ";" + id
     print(newHistory)
     if(oldHistory.find(id) >= 0):
@@ -152,8 +157,8 @@ def newQuestion(QuestionID, SubjectName, TypeName, FilePath, ShiTiShow):
     db.commit()
     return sql_insert
 
-@app.route('/uploadfile', methods=['GET', 'POST'])
-def upload_file():
+@app.route('/handle_new_question', methods=['GET', 'POST'])
+def handle_new_question():
     tmp = request.get_data().decode('utf-8','ignore')
     jsonObj = json.loads(tmp[tmp.rindex("{"):])
     print(jsonObj)
@@ -172,6 +177,15 @@ def upload_file():
         '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/show.jpg"><br>''' + 
         jsonObj['ShiTiShow']
         )
+    #用户添加提问记录
+    if(jsonObj['username'] != None):
+        old = getUserInfo(jsonObj['username'], "myquestion")
+        new = ""
+        if old == None:
+            new = str(timestamp)
+        else:
+            new = old.strip() + ";" + str(timestamp)
+        setUserInfo(jsonObj['username'], "myquestion", new)
     return "success"
 
 def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
@@ -185,8 +199,8 @@ def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
     db.commit()
     return sql_insert
 
-@app.route('/uploadfiles', methods=['GET', 'POST'])
-def uploadfiles():
+@app.route('/handle_new_answer', methods=['GET', 'POST'])
+def handle_new_answer():
     tmp = request.get_data().decode('utf-8','ignore')
     jsonObj = json.loads(tmp[tmp.rindex("{"):])
     print(jsonObj)
@@ -198,6 +212,15 @@ def uploadfiles():
         '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/analysis.jpg"><br>''',
         '''<img style="vertical-align: middle;" src="_questionImageIP_questionImagePath_questionImageID/answer.jpg"><br>'''
     )
+    #用户添加作答记录
+    if(jsonObj['username'] != None):
+        old = getUserInfo(jsonObj['username'], "myanswer")
+        new = ""
+        if old == None:
+            new = jsonObj['QuestionID']
+        else:
+            new = old.strip() + ";" + jsonObj['QuestionID']
+        setUserInfo(jsonObj['username'], "myanswer", new)
     return "success"
 
 @app.route('/newAnswer')

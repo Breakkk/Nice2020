@@ -100,7 +100,10 @@ public class DoQuestionActivity extends AppCompatActivity {
                     public void run() {
                         Map<String, Object> map = new HashMap<>();
                         map.put("QuestionID", getIntent().getExtras().getString("QuestionID").trim());
-                        NetworkUtils.test(NetworkUtils.hostAddr + "uploadfiles", fileList, map);
+                        if(MyApplication.isSignIned) {
+                            map.put("username", MyApplication.userName);
+                        }
+                        NetworkUtils.test(NetworkUtils.hostAddr + "handle_new_answer", fileList, map);
                         dialog.dismiss();
                     }
                 }).start();
