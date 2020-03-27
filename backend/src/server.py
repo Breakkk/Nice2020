@@ -228,5 +228,34 @@ def unresovle():
         return "None"
     return dictToJson(dataToDict(columns, data))
 
+@app.route('/test_unresovle', methods=['POST'])
+def test_unresovle():
+    jsonObj = json.loads(request.get_data())
+    print(jsonObj)
+    sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and TypeName = '{}' and solved = 0".format(jsonObj['SubjectName'], jsonObj['TypeName'])
+    cursor.execute(sql_serach)
+    columns = [column[0] for column in cursor.description]
+    res = []
+    data = cursor.fetchone()
+    while(data != None):
+        data = dictToJson(dataToDict(columns, data))
+        res.append(data)
+        data = cursor.fetchone()
+    print("***",{"data":res},"***")
+    return {"data":res}
+
+@app.route('/test/<key>')
+def test(key):
+    sql_serach = "select * from TK_QuestionInfo where SubjectName = '{}' and solved = 0".format(key)
+    cursor.execute(sql_serach)
+    columns = [column[0] for column in cursor.description]
+    res = []
+    data = cursor.fetchone()
+    while(data != None):
+        data = dictToJson(dataToDict(columns, data))
+        res.append(data)
+        data = cursor.fetchone()
+    return {"data":res}
+
 if __name__ == '__main__':
     app.run(debug=True)

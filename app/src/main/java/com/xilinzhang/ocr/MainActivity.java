@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.my:
                 //enter my activity
-                Intent intent3 = new Intent(MainActivity.this, ShowHistoryActivity.class);
+                Intent intent3 = new Intent(MainActivity.this, UserInfoActivity.class);
                 startActivity(intent3);
                 break;
             case R.id.question_list:
