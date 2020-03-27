@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.xilinzhang.ocr.listeners.WebViewClickListener;
 import com.xilinzhang.ocr.utils.DataBaseUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
 
@@ -89,43 +90,18 @@ public class QuestionListActivity extends AppCompatActivity {
                                         lllp.setMargins(20, 20, 20, 20);
                                         frameLayout.setLayoutParams(lllp);
 
-                                        webView.setOnTouchListener(new View.OnTouchListener() {
-                                            boolean isMove = false;
-                                            float x, y;
+                                        webView.setOnTouchListener(new WebViewClickListener(new Runnable() {
                                             @Override
-                                            public boolean onTouch(View view, MotionEvent motionEvent) {
-                                                Log.d("[uploadFileWithJson log]", isMove + motionEvent.toString());
-                                                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                                                    isMove = false;
-                                                    x = motionEvent.getX();
-                                                    y = motionEvent.getY();
-                                                    return false;
+                                            public void run() {
+                                                Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
+                                                try {
+                                                    intent.putExtra("QuestionID", obj.getString("QuestionID"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
                                                 }
-
-                                                if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                                                    if(Math.abs(motionEvent.getY() - y) >= 10) {
-                                                        isMove = true;
-                                                        return false;
-                                                    }
-                                                }
-
-                                                if(isMove) {
-                                                    return  false;
-                                                }
-
-                                                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                                                    Log.d("[uploadFileWithJson log]", "onTouch");
-                                                    Intent intent = new Intent(QuestionListActivity.this, DoQuestionActivity.class);
-                                                    try {
-                                                        intent.putExtra("QuestionID", obj.getString("QuestionID"));
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                    startActivity(intent);
-                                                }
-                                                return false;
+                                                startActivity(intent);
                                             }
-                                        });
+                                        }));
                                     }
                                 });
                             }

@@ -9,6 +9,7 @@ import insert as insert_helper
 import time
 import datetime
 
+
 class MyJSONEncoder(flask.json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):
@@ -77,7 +78,7 @@ def setUserInfo(username, infoName, infoValue):
     db.commit()
 
 def addHistory(id, username):
-    oldHistory = getUserInfo(username, 'historyid')
+    oldHistory = getUserInfo(username, 'historyid').strip()
     newHistory = oldHistory + ";" + id
     print(newHistory)
     if(oldHistory.find(id) >= 0):
@@ -250,5 +251,27 @@ def unresovle():
     print("***",{"data":res},"***")
     return {"data":res}
 
+@app.route('/userquestion', methods=['POST'])
+def userquestion():
+    jsonObj = json.loads(request.get_data())
+    return getUserInfo(jsonObj['username'], "myquestion")
+
+@app.route('/useranswer', methods=['POST'])
+def useranswer():
+    jsonObj = json.loads(request.get_data())
+    return getUserInfo(jsonObj['username'], "myanswer")
+
+@app.route('/getQuestionUseId', methods=['POST'])
+def getQuestionUseId():
+    jsonObj = json.loads(request.get_data())
+    command = "select * from TK_QuestionInfo where QuestionID like '%{}%'".format(jsonObj['QuestionID'])
+    cursor.execute(command)
+    columns = [column[0] for column in cursor.description]
+    data = cursor.fetchone()
+    if data == None:
+        return None
+    return dictToJson(dataToDict(columns, data))
+
 if __name__ == '__main__':
     app.run(debug=True)
+    app.run(threaded=True)

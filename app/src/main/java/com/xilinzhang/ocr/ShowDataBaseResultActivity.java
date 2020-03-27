@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -70,7 +71,13 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         analysis.loadData(getIntent().getExtras().getString(DataBaseUtils.SHITI_ANALYSIS), "text/html", "utf-8");
 
-        addHistory();
+        Log.d("testlog", getIntent().getExtras().getString(DataBaseUtils.SHITI_SHOW));
+        Log.d("testlog", getIntent().getExtras().getString(DataBaseUtils.SHITI_ANALYSIS));
+        Log.d("testlog", getIntent().getExtras().getString(DataBaseUtils.SHITI_ANSWER));
+
+        if(getIntent().getExtras().getBoolean("need_record")) {
+            addHistory();
+        }
     }
 
     private void addHistory() {
