@@ -67,4 +67,43 @@
         android:textColor="@android:color/white"
         android:textSize="26dp" />
 
+    <FrameLayout
+        android:id="@+id/ip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:text="IP地址："
+                />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/ip_address"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="8"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/ip_button"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:text="确认"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
 </FrameLayout>

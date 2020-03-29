@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +43,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signIn = findViewById(R.id.sign_in);
         signUp = findViewById(R.id.sign_up);
         my = findViewById(R.id.my);
+
+        findViewById(R.id.ip_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NetworkUtils.hostAddr = ((AppCompatEditText) findViewById(R.id.ip_address)).getText().toString();
+                findViewById(R.id.ip_view).setVisibility(View.GONE);
+            }
+        });
 
         signUp.setOnClickListener(this);
         signIn.setOnClickListener(this);
@@ -129,14 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == SignActivity.SIGN_IN_REQUEST && resultCode == SignActivity.SIGN_IN_RESULT_SUCCESS) {
+        if (requestCode == SignActivity.SIGN_IN_REQUEST && resultCode == SignActivity.SIGN_IN_RESULT_SUCCESS) {
             //登陆成功
             Toast.makeText(this, "登陆成功", Toast.LENGTH_LONG).show();
             signIn.setVisibility(View.GONE);
             my.setVisibility(View.VISIBLE);
             Intent newMessage = new Intent(this, MessageService.class);
             startService(newMessage);
-        }else if(requestCode == SignActivity.SIGN_UP_REQUEST && resultCode == SignActivity.SIGN_UP_RESULT_SUCCESS) {
+        } else if (requestCode == SignActivity.SIGN_UP_REQUEST && resultCode == SignActivity.SIGN_UP_RESULT_SUCCESS) {
             Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
         }
     }
