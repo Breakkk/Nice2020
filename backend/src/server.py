@@ -138,7 +138,7 @@ def signUp():
         print("success")
         return "success"
 
-UPLOAD_FOLDER = '/path/to/the/uploads'
+UPLOAD_FOLDER = "G:\\Nice2020\\backend\\src\\static\\newpics"
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
@@ -165,7 +165,7 @@ def handle_new_question():
     print(jsonObj)
     timestamp = int(round(time.time() * 1000))
     file = request.files['media']
-    filePath = "G:\\Nice2020\\backend\\src\\static\\newpics"
+    filePath = UPLOAD_FOLDER
     print(filePath)
     if not os.path.exists(os.path.join(filePath, str(timestamp))):
         os.mkdir(os.path.join(filePath, str(timestamp)))
@@ -205,7 +205,7 @@ def handle_new_answer():
     tmp = request.get_data().decode('utf-8','ignore')
     jsonObj = json.loads(tmp[tmp.rindex("{"):])
     print(jsonObj)
-    filePath = "G:\\Nice2020\\backend\\src\\static\\newpics"
+    filePath = UPLOAD_FOLDER
     request.files['analysis'].save(os.path.join(filePath, jsonObj['QuestionID'], "analysis.jpg"))
     request.files['answer'].save(os.path.join(filePath, jsonObj['QuestionID'], "answer.jpg"))
     updateQuestion(
@@ -223,17 +223,6 @@ def handle_new_answer():
             new = old.strip() + ";" + jsonObj['QuestionID']
         setUserInfo(jsonObj['username'], "myanswer", new)
     return "success"
-
-@app.route('/newAnswer')
-def newAnswer():
-    sql_str = insert_helper.update(
-        "0",
-        "after",
-        "after"
-    )
-    cursor.execute(sql_str)
-    db.commit()
-    return sql_str
 
 @app.route('/unresovle', methods=['POST'])
 def unresovle():
