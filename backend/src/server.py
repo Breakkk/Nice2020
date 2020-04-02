@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 import insert as insert_helper
 import time
 import datetime
-
+import jieba
 
 class MyJSONEncoder(flask.json.JSONEncoder):
     def default(self, obj):
@@ -30,6 +30,7 @@ db=pymssql.connect(
     'utf8'
 )
 
+jieba.lcut("a")
 print('connected!!')
 
 def dictToJson(dict):
@@ -260,6 +261,36 @@ def getQuestionUseId():
     if data == None:
         return None
     return dictToJson(dataToDict(columns, data))
+
+@app.route('/test', methods=['POST'])
+def test():
+    print (json.loads(request.get_data()))
+    jsonObj = json.loads(request.get_data())
+    keywords = jieba.lcut(jsonObj['keyword'])
+
+    sort_str = ""
+    like_str = ""
+    for keyword in keywords:
+        if(len(keyword) < 2):
+            continue
+        if sort_str == "":
+            sort_str = "(case when ShiTiShow like '%{}%' then 1 else 0 end)".format(keyword)
+        else:
+            sort_str = sort_str + " + (case when ShiTiShow like '%{}%' then 1 else 0 end)".format(keyword)
+        if like_str == "":
+            like_str = "ShiTiShow like '%{}%'".format(keyword)
+        else:
+            like_str = like_str + " or ShiTiShow like '%{}%'".format(keyword)
+
+    sql_str = "select *,({}) as sort  from TK_QuestionInfo where {} order by sort desc".format(sort_str, like_str)
+    print(sql_str)
+    cursor.execute(sql_str)
+    data=cursor.fetchone()
+    columns = [column[0] for column in cursor.description]
+
+    print(dictToJson(dataToDict(columns, data)))
+    return dictToJson(dataToDict(columns, data))
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class NetworkUtils {
-    public static final String hostAddr = "http://192.168.1.108:5000/";
+    public static final String hostAddr = "http://192.168.1.100:5000/";
 
     public static String sendPost(String address, Map<String, Object> map) {
         OutputStreamWriter out = null;

@@ -56,6 +56,8 @@ public class ShowOCRResultActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.setMessage("正在搜索题库");
+                dialog.show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -65,12 +67,14 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                         final Map<String, Object> map = new HashMap<>();
                         String text = textView.getText().toString();
                         try {
-                            String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
+//                            String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
+                            String keyword = text;
                             map.put("username", MyApplication.userName);
                             map.put("signed", MyApplication.isSignIned);
                             map.put("keyword", keyword);
                             final JSONObject json;
                             json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + DataBaseUtils.SERVER_POST_URL_SEARCH, map));
+                            dialog.dismiss();
                             DataBaseUtils.intentProcesser(intent, json);
                             intent.putExtra(DataBaseUtils.SUCCESS_FLAG, true);
                         } catch (Exception e) {
