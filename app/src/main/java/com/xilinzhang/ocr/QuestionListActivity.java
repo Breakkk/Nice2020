@@ -73,7 +73,7 @@ public class QuestionListActivity extends AppCompatActivity {
                                         WebView webView = new WebView(QuestionListActivity.this);
                                         FrameLayout frameLayout = new FrameLayout(QuestionListActivity.this);
                                         frameLayout.setPadding(30, 30, 30, 30);
-                                        frameLayout.setBackgroundResource(R.drawable.view_back_round);
+                                        frameLayout.setBackgroundResource(R.drawable.view_back);
                                         try {
                                             String text = obj.getString("ShiTiShow");
                                             text = DataBaseUtils.replaceImgURL(text, obj.getString("FilePath"), obj.getString("QuestionID").trim());

@@ -36,7 +36,7 @@ public class ShowHistoryActivity extends AppCompatActivity {
         if(recordList != null) {
             for(final Record record : recordList) {
                 AppCompatImageView imgView = new AppCompatImageView(this);
-                imgView.setBackgroundResource(R.drawable.view_back_round);
+                imgView.setBackgroundResource(R.drawable.view_back);
                 imgView.setImageURI(Uri.parse(record.getImgUri()));
                 root.addView(imgView);
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) imgView.getLayoutParams();

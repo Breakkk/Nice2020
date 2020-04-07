@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.Gravity;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -79,13 +81,16 @@ public class MyQuestionActicity extends AppCompatActivity {
                 public void run() {
                     FrameLayout frameLayout = new FrameLayout(MyQuestionActicity.this);
                     WebView webView = new WebView(MyQuestionActicity.this);
-                    frameLayout.setBackgroundResource(R.drawable.view_back_round);
-                    frameLayout.setPadding(30, 30, 30, 30);
+                    frameLayout.setBackgroundResource(R.drawable.view_back);
+//                    frameLayout.setPadding(30, 30, 30, 30);
+                    AppCompatImageView hasAnswer = new AppCompatImageView(MyQuestionActicity.this);
                     String text = null;
                     try {
                         text = jsonObject.getString("ShiTiShow");
                         text = DataBaseUtils.replaceImgURL(text, jsonObject.getString("FilePath"), jsonObject.getString("QuestionID").trim());
                         webView.loadData(text, "text/html", "utf-8");
+
+                        hasAnswer.setImageResource(jsonObject.getString("solved").contains("0") ?  R.drawable.no_answer : R.drawable.has_answer);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -94,10 +99,17 @@ public class MyQuestionActicity extends AppCompatActivity {
                     settings.setLoadWithOverviewMode(true);
 
                     frameLayout.addView(webView);
+                    frameLayout.addView(hasAnswer);
                     container.addView(frameLayout);
                     LinearLayout.LayoutParams lllp = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
                     lllp.setMargins(20, 20, 20, 20);
                     frameLayout.setLayoutParams(lllp);
+
+                    FrameLayout.LayoutParams fllp = (FrameLayout.LayoutParams) hasAnswer.getLayoutParams();
+                    fllp.width = 200;
+                    fllp.height = 200;
+                    fllp.gravity = Gravity.RIGHT;
+                    hasAnswer.setLayoutParams(fllp);
 
                     webView.setOnTouchListener(new WebViewClickListener(new Runnable() {
                         @Override

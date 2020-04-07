@@ -79,7 +79,7 @@ public class MyAnswerActivity extends AppCompatActivity {
                 public void run() {
                     FrameLayout frameLayout = new FrameLayout(MyAnswerActivity.this);
                     WebView webView = new WebView(MyAnswerActivity.this);
-                    frameLayout.setBackgroundResource(R.drawable.view_back_round);
+                    frameLayout.setBackgroundResource(R.drawable.view_back);
                     frameLayout.setPadding(30, 30, 30, 30);
                     String text = null;
                     try {
