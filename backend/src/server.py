@@ -287,10 +287,19 @@ def test():
     cursor.execute(sql_str)
     data=cursor.fetchone()
     columns = [column[0] for column in cursor.description]
-
-    print(dictToJson(dataToDict(columns, data)))
     return dictToJson(dataToDict(columns, data))
     
+@app.route("/getExp", methods=['POST'])
+def getExp():
+    jsonObj = json.loads(request.get_data())
+    print({'exp': getUserInfo(jsonObj['username'], 'exp')})
+    return {'exp': getUserInfo(jsonObj['username'], 'exp')}
+
+@app.route("/setExp", methods=['POST'])
+def setExp():
+    jsonObj = json.loads(request.get_data())
+    setUserInfo(jsonObj['username'], 'exp', jsonObj['exp'])
+    return "success"
 
 if __name__ == '__main__':
     app.run(debug=True)

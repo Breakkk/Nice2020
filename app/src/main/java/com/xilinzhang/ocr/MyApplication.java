@@ -18,5 +18,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         SharedPerferenceHelper.init(this, "application");
+
+        //TODO get exp per day
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.UserDataBaseUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
@@ -77,6 +78,12 @@ public class SignActivity extends AppCompatActivity {
                                     MyApplication.isSignIned = true;
                                     MyApplication.userName = user;
                                     setResult(SIGN_IN_RESULT_SUCCESS);
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            NetworkUtils.getExp();
+                                        }
+                                    }).start();
                                     finish();
                                 } else {
                                     //登陆失败

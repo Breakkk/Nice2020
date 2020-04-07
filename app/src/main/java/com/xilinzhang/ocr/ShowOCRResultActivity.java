@@ -74,8 +74,8 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                             map.put("keyword", keyword);
                             final JSONObject json;
                             json = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + DataBaseUtils.SERVER_POST_URL_SEARCH, map));
-                            dialog.dismiss();
                             DataBaseUtils.intentProcesser(intent, json);
+                            intent.putExtra("need_record", true);
                             intent.putExtra(DataBaseUtils.SUCCESS_FLAG, true);
                         } catch (Exception e) {
                             Log.d("error", e.toString());
@@ -83,6 +83,7 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                             intent.putExtra(DataBaseUtils.SUCCESS_FLAG, false);
                         } finally {
                             startActivity(intent);
+                            dialog.dismiss();
                         }
                     }
                 }).start();

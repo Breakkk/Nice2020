@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.xilinzhang.ocr.utils.DataBaseUtils;
+import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
@@ -77,6 +78,10 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
 
         if(getIntent().getExtras().getBoolean("need_record")) {
             addHistory();
+            //3TODO get exp
+            if(MyApplication.isSignIned) {
+                LevelUtils.addExpWhenSearch();
+            }
         }
     }
 

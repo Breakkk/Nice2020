@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
 
+import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
@@ -105,6 +106,8 @@ public class DoQuestionActivity extends AppCompatActivity {
                         }
                         NetworkUtils.test(NetworkUtils.hostAddr + "handle_new_answer", fileList, map);
                         dialog.dismiss();
+                        //TODO get exp
+                        LevelUtils.addExpWhenDoQuestion();
                     }
                 }).start();
             }

@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 
+import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
 
 import java.io.File;
@@ -73,6 +74,9 @@ NewQuestionActivity extends AppCompatActivity {
                         }
                         NetworkUtils.uploadFileWithJson(NetworkUtils.hostAddr + "handle_new_question", "media", new File(imgPath), map);
                         dialog.dismiss();
+
+                        //TODO get exp
+                        LevelUtils.addExpWhenPutUpQuestion();
                     }
                 }).start();
             }

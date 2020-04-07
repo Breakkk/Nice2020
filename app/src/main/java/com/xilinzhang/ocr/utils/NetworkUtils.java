@@ -1,9 +1,12 @@
 package com.xilinzhang.ocr.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.xilinzhang.ocr.DoQuestionActivity;
+import com.xilinzhang.ocr.MyApplication;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,6 +19,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -285,5 +289,30 @@ public class NetworkUtils {
             System.out.println("发送POST请求出现异常！" + e);
             e.printStackTrace();
         }
+    }
+
+    public static void getExp() {
+        Map<String, Object> map = new HashMap();
+        map.put("username", MyApplication.userName);
+        try {
+            Log.d("test log", "here");
+            JSONObject jsonObject = new JSONObject(NetworkUtils.sendPost(NetworkUtils.hostAddr + "getExp", map));
+            String expStr = jsonObject.getString("exp");
+            if (TextUtils.isEmpty(expStr) || expStr.contains("null")) {
+                expStr = "0,0";
+            }
+            String[] transStr = expStr.trim().split(",");
+            LevelUtils.level = Integer.parseInt(transStr[0]);
+            LevelUtils.exp = Integer.parseInt(transStr[1]);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setExp() {
+        Map<String, Object> map = new HashMap();
+        map.put("username", MyApplication.userName);
+        map.put("exp", String.format("%s,%s", LevelUtils.level, LevelUtils.exp));
+        NetworkUtils.sendPost(NetworkUtils.hostAddr + "setExp", map);
     }
 }

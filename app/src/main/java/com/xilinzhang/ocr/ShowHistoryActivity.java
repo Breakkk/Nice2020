@@ -48,6 +48,7 @@ public class ShowHistoryActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(ShowHistoryActivity.this, ShowDataBaseResultActivity.class);
                         intent.putExtra("imgUri", Uri.parse(record.getImgUri()));
+                        intent.putExtra("need_record", true);
                         intent.putExtra(DataBaseUtils.SUCCESS_FLAG, true);
                         intent.putExtra(DataBaseUtils.SHITI_SHOW, record.getShitiShow());
                         intent.putExtra(DataBaseUtils.SHITI_ANSWER, record.getShitiAnswer());

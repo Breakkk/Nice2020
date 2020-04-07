@@ -2,10 +2,22 @@ package com.xilinzhang.ocr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+
+import com.xilinzhang.ocr.utils.LevelUtils;
+import com.xilinzhang.ocr.utils.NetworkUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInfoActivity extends AppCompatActivity implements View.OnClickListener {
     AppCompatTextView username;
@@ -27,7 +39,21 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         exp = findViewById(R.id.exp);
 
         username.setText(MyApplication.userName);
-        exp.setText("0/9999999");
+        getExp();
+    }
+
+    private void getExp() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new Handler(getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        exp.setText(String.format("Lv %d : %d / %d", LevelUtils.level, LevelUtils.exp, LevelUtils.getNewLevelExp()));
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
