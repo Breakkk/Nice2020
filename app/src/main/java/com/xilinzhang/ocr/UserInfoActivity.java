@@ -35,6 +35,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.my_history).setOnClickListener(this);
         findViewById(R.id.my_answer).setOnClickListener(this);
         findViewById(R.id.my_question).setOnClickListener(this);
+        findViewById(R.id.top_level).setOnClickListener(this);
         username = findViewById(R.id.username);
         exp = findViewById(R.id.exp);
 
@@ -70,6 +71,10 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             case R.id.my_question:
                 Intent intent3 = new Intent(UserInfoActivity.this, MyQuestionActicity.class);
                 startActivity(intent3);
+                break;
+            case R.id.top_level:
+                Intent intent4 = new Intent(UserInfoActivity.this, TopLevelActivity.class);
+                startActivity(intent4);
                 break;
             default:
                 break;

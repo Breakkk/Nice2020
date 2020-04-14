@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
@@ -29,6 +30,8 @@ NewQuestionActivity extends AppCompatActivity {
     AppCompatImageView imgView;
     AppCompatEditText ocrView;
 
+    FrameLayout root;
+
     AppCompatButton upload;
 
     AppCompatSpinner subject, type;
@@ -42,6 +45,7 @@ NewQuestionActivity extends AppCompatActivity {
     }
 
     void initView() {
+        root = findViewById(R.id.root_view);
         imgView = findViewById(R.id.img);
         ocrView = findViewById(R.id.ocr_result);
         upload = findViewById(R.id.upload);
@@ -76,7 +80,7 @@ NewQuestionActivity extends AppCompatActivity {
                         dialog.dismiss();
 
                         //TODO get exp
-                        LevelUtils.addExpWhenPutUpQuestion();
+                        LevelUtils.addExpWhenPutUpQuestion(NewQuestionActivity.this, root);
                     }
                 }).start();
             }

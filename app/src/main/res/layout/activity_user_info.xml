@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5E5E5"
+    android:clipChildren="false"
     android:orientation="vertical">
 
     <LinearLayout
@@ -163,6 +164,32 @@
                 android:layout_marginLeft="50dp"
                 android:padding="5dp"
                 android:text="历史记录"
+                android:textSize="20dp" />
+
+        </FrameLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <FrameLayout
+            android:id="@+id/top_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/top_level" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:padding="5dp"
+                android:text="排行榜"
                 android:textSize="20dp" />
 
         </FrameLayout>

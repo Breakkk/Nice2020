@@ -1,6 +1,11 @@
 package com.xilinzhang.ocr;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +16,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,11 +27,15 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView imageView;
     private AppCompatTextView signIn, signUp, my;
+    private AppCompatImageView circle;
+
+    private FrameLayout root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.btn_camera);
         imageView.setOnClickListener(this);
+        circle = findViewById(R.id.circle);
+        root = findViewById(R.id.root_view);
 
         signIn = findViewById(R.id.sign_in);
         signUp = findViewById(R.id.sign_up);
@@ -41,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signIn.setOnClickListener(this);
         my.setOnClickListener(this);
         findViewById(R.id.question_list).setOnClickListener(this);
+
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(
+                circle,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.3f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.3f)
+        );
+        animator.setDuration(1000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.start();
 
         initAccessToken();
     }

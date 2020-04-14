@@ -301,6 +301,23 @@ def setExp():
     setUserInfo(jsonObj['username'], 'exp', jsonObj['exp'])
     return "success"
 
+@app.route("/getTopLevel", methods=['POST', 'GET'])
+def getTopLevel():
+    print("hhhhhhhhhhhhhhh")
+    sort_str = "convert(int,left(exp,CHARINDEX(',', exp)-1))"
+    sql_str = "select *,({}) as level  from userInfoList order by level desc".format(sort_str)
+    cursor.execute(sql_str)
+    data=cursor.fetchone()
+    columns = [column[0] for column in cursor.description]
+    ans = []
+    for i in range(0, 8):
+        if data == None:
+            break
+        ans.append(dataToDict(columns, data))
+        data = cursor.fetchone()
+    print({'res':ans})
+    return {'res':ans}
+
 if __name__ == '__main__':
     app.run(debug=True)
     app.run(threaded=True)

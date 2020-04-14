@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class NetworkUtils {
-    public static final String hostAddr = "http://192.168.1.102:5000/";
+    public static final String hostAddr = "http://192.168.1.100:5000/";
 
     public static String sendPost(String address, Map<String, Object> map) {
         OutputStreamWriter out = null;
@@ -46,7 +46,12 @@ public class NetworkUtils {
             //获取输出流
             out = new OutputStreamWriter(conn.getOutputStream());
             //                String jsonStr = "{\"qry_by\":\"name\", \"name\":\"Tim\"}";
-            String jsonStr = new JSONObject(map).toString();
+            String jsonStr;
+            if (map != null) {
+                jsonStr = new JSONObject(map).toString();
+            } else {
+                jsonStr = "";
+            }
 
             System.out.println("json" + jsonStr);
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.NetworkUtils;
@@ -31,6 +32,8 @@ public class DoQuestionActivity extends AppCompatActivity {
 
     String answerPath, analysisPath;
     Uri answerUri, analysisUri;
+
+    FrameLayout root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class DoQuestionActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        root = findViewById(R.id.root_view);
         answer = findViewById(R.id.answer);
         analysis = findViewById(R.id.analysis);
         upload = findViewById(R.id.upload);
@@ -107,7 +111,7 @@ public class DoQuestionActivity extends AppCompatActivity {
                         NetworkUtils.test(NetworkUtils.hostAddr + "handle_new_answer", fileList, map);
                         dialog.dismiss();
                         //TODO get exp
-                        LevelUtils.addExpWhenDoQuestion();
+                        LevelUtils.addExpWhenDoQuestion(DoQuestionActivity.this, root);
                     }
                 }).start();
             }

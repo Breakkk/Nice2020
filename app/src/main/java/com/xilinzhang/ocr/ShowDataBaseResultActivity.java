@@ -26,6 +26,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
 
     private WebView show, answer, analysis;
     private FrameLayout failedView;
+    private FrameLayout root;
 
     Uri imgUri;
 
@@ -42,6 +43,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        root = findViewById(R.id.root_view);
         show = findViewById(R.id.shiti_show);
         answer = findViewById(R.id.shiti_answer);
         analysis = findViewById(R.id.shiti_analysis);
@@ -80,7 +82,7 @@ public class ShowDataBaseResultActivity extends AppCompatActivity {
             addHistory();
             //3TODO get exp
             if(MyApplication.isSignIned) {
-                LevelUtils.addExpWhenSearch();
+                LevelUtils.addExpWhenSearch(this, root);
             }
         }
     }
