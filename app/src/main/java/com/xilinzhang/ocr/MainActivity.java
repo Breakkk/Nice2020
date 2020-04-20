@@ -1,20 +1,13 @@
 package com.xilinzhang.ocr;
 
-import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -27,7 +20,6 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
-import com.xilinzhang.ocr.utils.LevelUtils;
 import com.xilinzhang.ocr.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -142,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "登陆成功", Toast.LENGTH_LONG).show();
             signIn.setVisibility(View.GONE);
             my.setVisibility(View.VISIBLE);
+            Intent newMessage = new Intent(this, MessageService.class);
+            startService(newMessage);
         }else if(requestCode == SignActivity.SIGN_UP_REQUEST && resultCode == SignActivity.SIGN_UP_RESULT_SUCCESS) {
             Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
         }

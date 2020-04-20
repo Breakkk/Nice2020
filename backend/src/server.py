@@ -78,6 +78,19 @@ def setUserInfo(username, infoName, infoValue):
     cursor.execute(sqlstr)
     db.commit()
 
+def getQuestionInfo(id, infoName):
+    sqlstr = "select * from TK_QuestionInfo where QuestionID='{}'".format(id)
+    cursor.execute(sqlstr)
+    data = cursor.fetchone()
+    columns = [column[0] for column in cursor.description]
+    datadict = dataToDict(columns, data)
+    return datadict[infoName]
+
+def setQuestionInfo(id, infoName, infoValue):
+    sqlstr = "update TK_QuestionInfo set {}='{}' where QuestionID='{}'".format(infoName, infoValue, id)
+    cursor.execute(sqlstr)
+    db.commit()
+
 def addHistory(id, username):
     oldHistory = getUserInfo(username, 'historyid').strip()
     newHistory = oldHistory + ";" + id
@@ -188,6 +201,7 @@ def handle_new_question():
         else:
             new = old.strip() + ";" + str(timestamp)
         setUserInfo(jsonObj['username'], "myquestion", new)
+        setQuestionInfo(str(timestamp), "author", jsonObj['username'])
     return "success"
 
 def updateQuestion(QuestionID, ShiTiAnalysis, ShiTiAnswer):
@@ -223,6 +237,7 @@ def handle_new_answer():
         else:
             new = old.strip() + ";" + jsonObj['QuestionID']
         setUserInfo(jsonObj['username'], "myanswer", new)
+        setUserInfo(getQuestionInfo(jsonObj['QuestionID'], "author"), "newmessage", "1")
     return "success"
 
 @app.route('/unresovle', methods=['POST'])
@@ -317,6 +332,13 @@ def getTopLevel():
         data = cursor.fetchone()
     print({'res':ans})
     return {'res':ans}
+
+@app.route("/getNewMessage", methods=['POST', 'GET'])
+def getNewMessage():
+    jsonObj = json.loads(request.get_data())
+    res = getUserInfo(jsonObj['username'], "newmessage")
+    setUserInfo(jsonObj['username'], "newmessage", "0")
+    return res
 
 if __name__ == '__main__':
     app.run(debug=True)

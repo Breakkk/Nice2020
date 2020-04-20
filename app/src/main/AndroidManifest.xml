@@ -83,10 +83,13 @@
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xilinzhang.ocr.TopLevelActivity"
-            android:theme="@style/AppTheme.transparent"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:launchMode="singleTop"
-            android:screenOrientation="nosensor" />
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme.transparent" />
+
+        <service
+            android:name="com.xilinzhang.ocr.MessageService"/>
     </application>
 
 </manifest>
