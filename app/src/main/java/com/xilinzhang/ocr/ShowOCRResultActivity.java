@@ -67,7 +67,6 @@ public class ShowOCRResultActivity extends AppCompatActivity {
                         final Map<String, Object> map = new HashMap<>();
                         String text = textView.getText().toString();
                         try {
-//                            String keyword = text.substring(text.indexOf("("), text.indexOf(")") + 1);
                             String keyword = text;
                             map.put("username", MyApplication.userName);
                             map.put("signed", MyApplication.isSignIned);
@@ -94,18 +93,6 @@ public class ShowOCRResultActivity extends AppCompatActivity {
         imgPath = getIntent().getExtras().getString("path");
         imageView.setImageURI(uri);
         myThread.start();
-
-        findViewById(R.id.failed).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        NetworkUtils.uploadFile(NetworkUtils.hostAddr + "uploadfile", "media", new File(imgPath));
-                    }
-                }).start();
-            }
-        });
     }
 
     private Runnable runnable = new Runnable() {

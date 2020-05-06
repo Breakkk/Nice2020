@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.View;
@@ -46,11 +47,16 @@ public class LevelUtils {
         updateExp();
     }
 
-    private static void ifUpgrade(Context context , FrameLayout view) {
+    private static void ifUpgrade(final Context context , final FrameLayout view) {
         if (exp >= getNewLevelExp()) {
             exp -= getNewLevelExp();
             level += 1;
-            getLevelUpAnimator(context, view).start();
+            new Handler(context.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    getLevelUpAnimator(context, view).start();
+                }
+            });
             //TODO some animation
             ifUpgrade(context, view);
         }

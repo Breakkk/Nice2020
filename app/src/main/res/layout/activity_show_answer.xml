@@ -32,30 +32,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:layout_gravity="center_horizontal"
+                android:text="搜索!"/>
         </LinearLayout>
-
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_gravity="center_horizontal"
-            android:text="搜索!"/>
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/failed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_gravity="center_horizontal"
-            android:text="识别失败，重新拍照"/>
-
-    </LinearLayout>
 </LinearLayout>
