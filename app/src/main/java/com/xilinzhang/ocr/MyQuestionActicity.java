@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.webkit.WebSettings;
@@ -53,7 +54,7 @@ public class MyQuestionActicity extends AppCompatActivity {
                 final List<String> idList = new ArrayList<>();
                 Log.d("testlog", "******************");
                 for (String id : idListMulti) {
-                    if (!idList.contains(id)) {
+                    if (!idList.contains(id) && !TextUtils.isEmpty(id)) {
                         Log.d("testlog", id);
                         idList.add(id);
                     }

@@ -259,6 +259,8 @@ def unresovle():
 @app.route('/userquestion', methods=['POST'])
 def userquestion():
     jsonObj = json.loads(request.get_data())
+    print(jsonObj['username'])
+    print(getUserInfo(jsonObj['username'], "myquestion"))
     return getUserInfo(jsonObj['username'], "myquestion")
 
 @app.route('/useranswer', methods=['POST'])

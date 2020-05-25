@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -46,12 +47,13 @@ public class MyAnswerActivity extends AppCompatActivity {
             public void run() {
                 Map<String, Object> map = new HashMap<>();
                 map.put("username", MyApplication.userName);
-                String str = NetworkUtils.sendPost(NetworkUtils.hostAddr + "useranswer", map).trim();
+                String str = NetworkUtils.sendPost(NetworkU
+                        tils.hostAddr + "useranswer", map).trim();
                 String[] idListMulti = str.split(";");
                 final List<String> idList = new ArrayList<>();
                 Log.d("testlog", "******************");
                 for (String id : idListMulti) {
-                    if (!idList.contains(id)) {
+                    if (!idList.contains(id) && !TextUtils.isEmpty(id)) {
                         Log.d("testlog", id);
                         idList.add(id);
                     }
